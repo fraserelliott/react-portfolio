@@ -20,6 +20,11 @@
   font: var(--font-secondary);
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 h1 {
   font-family: var(--font-primary);
 }

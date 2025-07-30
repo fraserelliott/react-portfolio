@@ -1,7 +1,19 @@
 const Footer = () => {
   return (
     <footer style={styles.footer}>
-      <p>&copy; 2025 My App. All rights reserved.</p>
+      <p>
+        &copy; Fraser Elliott 2025 |{' '}
+        <a href="https://github.com/fraserelliott" target="_blank">
+          GitHub
+        </a>{' '}
+        |{' '}
+        <a
+          href="https://www.linkedin.com/in/fraser-elliott-77100974/"
+          target="_blank"
+        >
+          LinkedIn
+        </a>
+      </p>
     </footer>
   );
 };
