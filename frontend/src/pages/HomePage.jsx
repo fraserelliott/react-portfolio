@@ -20,6 +20,7 @@ const AboutSection = () => {
           academic background is in mathematics and statistics and I'm looking
           to apply my problem solving skills in a career in development.
           <br />
+          <br />
           I've used a range of technologies as I've been learning to program
           including:
         </p>
