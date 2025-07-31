@@ -1,30 +1,3 @@
-:root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --btn-primary: #64748b;
-  --btn-primary-hover: #475569;
-  --btn-primary-active: #334155;
-  --text-primary: #f1f5f9;
-  --text-secondary: #ffffff;
-  --dropdown-bg: #334155;
-  --btn-danger: #f87171;
-  --btn-danger-hover: #ef4444;
-  --btn-danger-active: #dc2626;
-  --font-primary: 'Roboto';
-  --font-secondary: 'Monserrat';
-}
-
-#root {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font: var(--font-secondary);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 h1 {
-  font-family: var(--font-primary);
+  font-family: var(--font-family-primary);
 }

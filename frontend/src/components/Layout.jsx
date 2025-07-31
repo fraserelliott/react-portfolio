@@ -1,7 +1,7 @@
 import Header from './Header';
 import Footer from './Footer';
 
-const Layout = ({ children, selectedPage, onSetPage }) => {
+const Layout = ({ children }) => {
   return (
     <div style={styles.container}>
       <Header />
