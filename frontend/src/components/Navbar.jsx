@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { useGlobalStore } from './GlobalStoreProvider';
+import styles from './Navbar.module.css';
 
 const pages = [
   { name: 'Home', key: 'home' },
@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const renderPageLinks = () => {
     return (
-      <ul style={styles.navList}>
+      <ul className={styles.navList}>
         {pages.map((page) => renderPageLink(page))}
         {authorised && renderPageLink({ name: 'Dashboard', key: 'dashboard' })}
       </ul>
@@ -24,10 +24,9 @@ const Navbar = () => {
     return (
       <li
         key={page.key}
-        style={{
-          ...styles.navItem,
-          ...(page.key === currentPage ? styles.selected : {}),
-        }}
+        className={`${styles.navItem} ${
+          page.key === currentPage ? styles.selected : ''
+        }`}
         onClick={() => setCurrentPage(page.key)}
       >
         {page.name}
@@ -35,21 +34,7 @@ const Navbar = () => {
     );
   };
 
-  return <div style={styles.container}>{renderPageLinks()}</div>;
-};
-
-const styles = {
-  navList: {
-    display: 'flex',
-    listStyleType: 'none',
-  },
-  navItem: {
-    margin: '0.25rem',
-    padding: '0.5rem',
-  },
-  selected: {
-    backgroundColor: 'var(--btn-primary-active)',
-  },
+  return <div className={styles.container}>{renderPageLinks()}</div>;
 };
 
 export default Navbar;

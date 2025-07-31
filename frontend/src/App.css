@@ -1,3 +1,50 @@
 h1 {
   font-family: var(--font-family-primary);
+  font-size: 1.3rem;
+}
+
+.panel {
+  background-color: var(--bg-secondary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  width: 90%;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.w-l {
+  width: min(691px, 90vw);
+}
+
+.my-1 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.my-2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.p-1 {
+  padding: 5px;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* responsive behaviours */
+
+@media (max-width: 768px) {
+  .flex-row-desktop {
+    flex-direction: column;
+  }
 }

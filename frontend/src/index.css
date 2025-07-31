@@ -17,13 +17,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+* {
   margin: 0;
+  padding: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+body {
   display: flex;
   place-items: center;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font: var(--font-family-secondary);
+  font-family: var(--font-family-secondary);
 }
 
 a {
