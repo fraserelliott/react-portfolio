@@ -23,6 +23,11 @@ h1 {
   width: min(691px, 90vw);
 }
 
+.mx-1 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .my-1 {
   margin-top: 5px;
   margin-bottom: 5px;

@@ -1,9 +1,11 @@
 import fraser from '../assets/fraser.jpg';
+import ProjectPreviewPanel from '../components/ProjectPreviewPanel';
 
 const HomePage = () => {
   return (
     <>
       <AboutSection />
+      <ProjectPreviewPanel featured />
     </>
   );
 };
@@ -13,7 +15,7 @@ const AboutSection = () => {
     <section className="panel flex flex-row-desktop align-center w-l my-2">
       <div className="flex-grow">
         <h1 className="my-1 ">Hi, I'm Fraser.</h1>
-        <p>
+        <p className="mx-1">
           I am an aspiring developer who started using C# for Windows
           applications and games before branching into other technologies. I am
           currently doing a level 4 qualification in full stack development. My

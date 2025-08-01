@@ -1,3 +1,0 @@
-const ProjectPreviews = () => {
-  return <></>;
-};

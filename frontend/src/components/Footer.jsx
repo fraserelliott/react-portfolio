@@ -15,12 +15,10 @@ const Footer = () => {
     <footer style={styles.footer}>
       &copy; Fraser Elliott 2025 |{' '}
       {links.map((link) => (
-        <>
-          <a href={link.url} key={link.name}>
-            {link.name}
-          </a>
+        <span key={link.name}>
+          <a href={link.url}>{link.name}</a>
           {' | '}
-        </>
+        </span>
       ))}
       <span role="link" onClick={() => setCurrentPage('dashboard')}>
         🔧

@@ -5,6 +5,7 @@ const GlobalStoreContext = createContext(null);
 export function GlobalStoreProvider({ children }) {
   const [currentPage, setCurrentPage] = useState('home');
   const [authorised, setAuthorised] = useState(false);
+  const [projects, setProjects] = useState([]);
 
   // Save page to sessionStorage when it changes
   useEffect(() => {
@@ -14,6 +15,7 @@ export function GlobalStoreProvider({ children }) {
   const value = {
     currentPageState: [currentPage, setCurrentPage],
     authorisedState: [authorised, setAuthorised],
+    projects: [projects, setProjects],
   };
 
   return (
@@ -35,6 +37,8 @@ export function useGlobalStore(key) {
       return context.currentPageState;
     case 'authorised':
       return context.authorisedState;
+    case 'projects':
+      return context.projects;
     default:
       throw new Error(`Unknown global store key: ${key}`);
   }
