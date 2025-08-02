@@ -6,6 +6,13 @@ export function GlobalStoreProvider({ children }) {
   const [currentPage, setCurrentPage] = useState('home');
   const [authorised, setAuthorised] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  // Load data on mount
+  useEffect(() => {
+    loadProjects();
+    loadTags();
+  }, []);
 
   // Save page to sessionStorage when it changes
   useEffect(() => {
@@ -16,6 +23,43 @@ export function GlobalStoreProvider({ children }) {
     currentPageState: [currentPage, setCurrentPage],
     authorisedState: [authorised, setAuthorised],
     projects: [projects, setProjects],
+    tags: [tags, setTags],
+  };
+
+  const loadProjects = () => {
+    fetch('http://127.0.0.1:3001/api/posts')
+      .then((res) => {
+        if (!res.ok) {
+          // TODO: error message
+          return Promise.reject();
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setProjects(data);
+      })
+      .catch((err) => {
+        // TODO: error message
+        console.error(err);
+      });
+  };
+
+  const loadTags = () => {
+    fetch('http://127.0.0.1:3001/api/tags')
+      .then((res) => {
+        if (!res.ok) {
+          // TODO: error message
+          return Promise.reject();
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setTags(data);
+      })
+      .catch((err) => {
+        // TODO: error message
+        console.error(err);
+      });
   };
 
   return (
@@ -39,6 +83,8 @@ export function useGlobalStore(key) {
       return context.authorisedState;
     case 'projects':
       return context.projects;
+    case 'tags':
+      return context.tags;
     default:
       throw new Error(`Unknown global store key: ${key}`);
   }
