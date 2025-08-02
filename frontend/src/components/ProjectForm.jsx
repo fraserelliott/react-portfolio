@@ -14,7 +14,6 @@ const BLANK_FORM = {
 const ProjectForm = ({ project, mode, onCancel, onSave }) => {
   const [formData, setFormData] = useState(BLANK_FORM);
   const [uploadData, setUploadData] = useState(null);
-  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     if (project) setFormData({ ...project });
@@ -24,8 +23,20 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
   // TODO: hook into props on TagDisplay and TagFilter to make the 2 work with each other
   // TODO: delete button
 
+  const handleTagFilterUpdate = (tag, isChecked) => {
+    setFormData({
+      ...formData,
+      tags: isChecked
+        ? [...formData.tags, tag]
+        : formData.tags.filter((t) => t.id !== tag.id),
+    });
+  };
+
   return (
-    <div className="panel flex flex-column vertical-spacing" style={{height: '90%'}}>
+    <div
+      className="panel flex flex-column vertical-spacing"
+      style={{ height: '90%' }}
+    >
       <div className="flex horizontal-spacing">
         <input
           className="flex-grow"
@@ -46,8 +57,16 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
         />
       </div>
       <div className="flex">
-        <TagDisplay tags={formData.tags} />
-        <TagFilter selectedTags={formData.tags} onFilterUpdate={} />
+        <TagDisplay
+          tags={formData.tags}
+          onRemoveTag={(tag) => handleTagFilterUpdate(tag, false)}
+        />
+        <TagFilter
+          selectedTags={formData.tags}
+          onFilterUpdate={(tag, isChecked) =>
+            handleTagFilterUpdate(tag, isChecked)
+          }
+        />
       </div>
       <input
         type="text"
@@ -57,11 +76,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
           setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
         }
       />
-      <input
-        type="text"
-        readOnly
-        value={project.imageUrl}
-      />
+      <input type="text" readOnly value={project.imageUrl} />
       <ImageUpload
         uploadData={uploadData}
         onFileSelect={(data) => setUploadData(data)}
@@ -78,24 +93,24 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
         <div />
         <div className="flex horizontal-spacing">
           <button onClick={() => onCancel()}>Cancel</button>
-          <button onClick={() => onSave(formData, uploadData)}>Save & Close</button>
+          <button onClick={() => onSave(formData, uploadData)}>
+            Save & Close
+          </button>
         </div>
-        <div>
-          { mode && <button className="btn-danger">Delete</button>}
-        </div>
+        <div>{mode && <button className="btn-danger">Delete</button>}</div>
       </div>
     </div>
   );
 };
 
-const TagDisplay = ({ tags, removeTag }) => {
+const TagDisplay = ({ tags, onRemoveTag }) => {
   return (
     <div className="flex flex-grow flex-wrap">
       {tags.map((tag, index) => {
         return (
           <div className="mx-1" key={index}>
             <span className="mx-1">{tag.name}</span>
-            <button className="mx-1" onClick={() => removeTag(tag)}>
+            <button className="mx-1" onClick={() => onRemoveTag(tag)}>
               X
             </button>
           </div>
