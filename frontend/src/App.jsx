@@ -4,6 +4,7 @@ import './App.css';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
@@ -20,6 +21,7 @@ function App() {
     <Layout>
       {currentPage === 'home' && <HomePage />}
       {currentPage === 'projects' && <ProjectsPage />}
+      {currentPage === 'dashboard' && <DashboardPage />}
     </Layout>
   );
 }

@@ -36,6 +36,14 @@ button:active {
   display: flex;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
 .align-center {
   align-items: center;
 }
@@ -63,8 +71,23 @@ button:active {
   padding: 5px;
 }
 
-.flex-grow {
-  flex-grow: 1;
+.text-align-center {
+  text-align: center;
+}
+
+.w-m {
+  width: min(450px, 90vw);
+}
+
+form > * {
+  margin-bottom: 0.5rem;
+}
+
+input {
+  background-color: var(--bg-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* responsive behaviours */

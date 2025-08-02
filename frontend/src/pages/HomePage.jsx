@@ -28,7 +28,7 @@ const AboutSection = () => {
   return (
     <section className="panel flex flex-row-desktop align-center w-l my-2">
       <div className="flex-grow">
-        <h1 className="my-1 ">Hi, I'm Fraser.</h1>
+        <h1 className="my-1 mx-1">Hi, I'm Fraser.</h1>
         <p className="mx-1">
           I am an aspiring developer who started using C# for Windows
           applications and games before branching into other technologies. I am
