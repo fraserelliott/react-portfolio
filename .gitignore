@@ -141,3 +141,4 @@ vite.config.ts.timestamp-*
 # config
 .prettierrc.json
 .eslintrc.json
+.vscode/
