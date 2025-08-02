@@ -4,6 +4,7 @@ import TagFilter from '../components/TagFilter';
 
 const ProjectsPage = () => {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedProject, setSelectedProject] = useState();
 
   return (
     <>

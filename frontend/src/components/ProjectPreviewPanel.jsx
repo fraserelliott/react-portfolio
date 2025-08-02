@@ -7,8 +7,6 @@ const ProjectPreviewPanel = (props) => {
 
   // Filter projects based on props: featured, searchTerm and selectedTags
   const filterProjects = () => {
-    console.log('projects: ', projects);
-    console.log('filtering projects with array', props.selectedTags);
     let filteredProjects = [...projects];
     if (props.featured)
       filteredProjects = filteredProjects.filter((project) => project.featured);
