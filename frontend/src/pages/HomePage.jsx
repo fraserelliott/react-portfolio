@@ -1,15 +1,29 @@
 import fraser from '../assets/fraser.jpg';
 import ProjectPreviewPanel from '../components/ProjectPreviewPanel';
+import { useGlobalStore } from '../components/GlobalStoreProvider';
 
 const HomePage = () => {
+  const [currentProject, setCurrentProject] = useGlobalStore('currentProject');
+  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
+
+  const handlePreviewClick = (project) => {
+    setCurrentPage('projects');
+    setCurrentProject(project);
+  };
+
   return (
     <>
       <AboutSection />
-      <ProjectPreviewPanel featured />
+      <h1 style={{ textAlign: 'center', margin: '1rem' }}>Featured Projects</h1>
+      <ProjectPreviewPanel
+        featured
+        onClick={(project) => handlePreviewClick(project)}
+      />
     </>
   );
 };
 
+// TODO: update text with intro from CV
 const AboutSection = () => {
   return (
     <section className="panel flex flex-row-desktop align-center w-l my-2">

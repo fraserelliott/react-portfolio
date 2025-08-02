@@ -5,6 +5,10 @@ import styles from './ProjectPreviewPanel.module.css';
 const ProjectPreviewPanel = (props) => {
   const [projects, setProjects] = useGlobalStore('projects');
 
+  const handleClick = (project) => {
+    if (props.onClick) props.onClick(project);
+  };
+
   // Filter projects based on props: featured, searchTerm and selectedTags
   const filterProjects = () => {
     let filteredProjects = [...projects];
@@ -32,16 +36,25 @@ const ProjectPreviewPanel = (props) => {
   return (
     <div className={styles.container}>
       {filterProjects().map((project) => (
-        <ProjectPreview key={project.id} project={project} />
+        <ProjectPreview
+          key={project.id}
+          project={project}
+          onClick={() => handleClick(project)}
+        />
       ))}
     </div>
   );
 };
 
-const ProjectPreview = ({ project }) => {
+const ProjectPreview = ({ project, onClick }) => {
   return (
-    <div className={styles.project}>
-      <a href={project.repoLink}>
+    <div
+      className={styles.project}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
+    >
+      <a href={project.repoLink} target="_blank">
         <h1 className={styles.centered}>{project.title}</h1>
       </a>
       {project.tags.length > 0 && (

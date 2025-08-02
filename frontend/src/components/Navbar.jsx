@@ -9,6 +9,7 @@ const pages = [
 
 const Navbar = () => {
   const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
+  const [currentProject, setCurrentProject] = useGlobalStore('currentProject');
   const [authorised] = useGlobalStore('authorised');
 
   const renderPageLinks = () => {
@@ -27,7 +28,10 @@ const Navbar = () => {
         className={`${styles.navItem} ${
           page.key === currentPage ? styles.selected : ''
         }`}
-        onClick={() => setCurrentPage(page.key)}
+        onClick={() => {
+          setCurrentPage(page.key);
+          setCurrentProject(null);
+        }}
       >
         {page.name}
       </li>

@@ -7,6 +7,7 @@ export function GlobalStoreProvider({ children }) {
   const [authorised, setAuthorised] = useState(false);
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
+  const [currentProject, setCurrentProject] = useState();
 
   // Load data on mount
   useEffect(() => {
@@ -24,6 +25,7 @@ export function GlobalStoreProvider({ children }) {
     authorisedState: [authorised, setAuthorised],
     projects: [projects, setProjects],
     tags: [tags, setTags],
+    currentProject: [currentProject, setCurrentProject],
   };
 
   const loadProjects = () => {
@@ -85,6 +87,8 @@ export function useGlobalStore(key) {
       return context.projects;
     case 'tags':
       return context.tags;
+    case 'currentProject':
+      return context.currentProject;
     default:
       throw new Error(`Unknown global store key: ${key}`);
   }
