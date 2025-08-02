@@ -1,0 +1,107 @@
+import { useState, useEffect } from 'react';
+import TagFilter from './TagFilter';
+import ImageUpload from './ImageUpload';
+
+const BLANK_FORM = {
+  title: '',
+  featured: false,
+  tags: [],
+  imageUrl: '',
+  repoLink: '',
+  content: '',
+};
+
+const ProjectForm = ({ project, mode, onCancel, onSave }) => {
+  const [formData, setFormData] = useState(BLANK_FORM);
+  const [uploadData, setUploadData] = useState(null);
+
+  useEffect(() => {
+    if (project) setFormData({ ...project });
+    else setFormData(BLANK_FORM);
+  }, [project]);
+
+  // TODO: hook into props on TagDisplay and TagFilter to make the 2 work with each other
+  // TODO: delete button
+
+  return (
+    <div className="panel flex flex-column vertical-spacing" style={{height: '90%'}}>
+      <div className="flex horizontal-spacing">
+        <input
+          className="flex-grow"
+          placeholder="Title"
+          value={formData.title}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, title: e.target.value }))
+          }
+        />
+        <label htmlFor="featured">Featured:</label>
+        <input
+          type="checkbox"
+          id="featured"
+          checked={formData.featured}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, featured: e.target.checked }))
+          }
+        />
+      </div>
+      <div className="flex">
+        <TagDisplay tags={formData.tags} />
+        <TagFilter selectedTags={formData.tags} />
+      </div>
+      <input
+        type="text"
+        placeholder="Repo link"
+        value={project.repoLink}
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
+        }
+      />
+      <input
+        type="text"
+        readOnly
+        value={project.imageUrl}
+      />
+      <ImageUpload
+        uploadData={uploadData}
+        onFileSelect={(data) => setUploadData(data)}
+      />
+      <textarea
+        className="flex-grow"
+        value={formData.content}
+        placeholder="content"
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, content: e.target.value }))
+        }
+      />
+      <div className="flex justify-between">
+        <div />
+        <div className="flex horizontal-spacing">
+          <button onClick={() => onCancel()}>Cancel</button>
+          <button onClick={() => onSave(formData, uploadData)}>Save & Close</button>
+        </div>
+        <div>
+          { mode && <button className="btn-danger">Delete</button>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TagDisplay = ({ tags, removeTag }) => {
+  return (
+    <div className="flex flex-grow flex-wrap">
+      {tags.map((tag, index) => {
+        return (
+          <div className="mx-1" key={index}>
+            <span className="mx-1">{tag.name}</span>
+            <button className="mx-1" onClick={() => removeTag(tag)}>
+              X
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default ProjectForm;

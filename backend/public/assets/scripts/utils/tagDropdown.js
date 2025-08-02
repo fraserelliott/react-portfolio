@@ -74,7 +74,7 @@ export class TagDropdown {
         return filtered.length > 0;
     }
 
-    // Retrievs all available tags from the API and adds corresponding elements. Called in object creation.
+    // Retrieves all available tags from the API and adds corresponding elements. Called in object creation.
     async getAvailableTags() {
         try {
             const res = await fetch("/api/tags");

@@ -30,7 +30,7 @@ const LoginForm = () => {
   };
 
   return (
-    <main className="panel w-m text-align-center">
+    <div className="panel w-m text-align-center">
       <form
         className="flex flex-column"
         onSubmit={(e) => {
@@ -56,7 +56,7 @@ const LoginForm = () => {
           <button type="submit">Login</button>
         </div>
       </form>
-    </main>
+    </div>
   );
 };
 

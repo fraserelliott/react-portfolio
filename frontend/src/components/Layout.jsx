@@ -5,9 +5,7 @@ const Layout = ({ children }) => {
   return (
     <div style={styles.container}>
       <Header />
-
-      {children}
-
+      <main style={{ flexGrow: '1' }}>{children}</main>
       <Footer />
     </div>
   );
@@ -19,6 +17,7 @@ const styles = {
     flexDirection: 'column',
     minHeight: '100vh',
     minWidth: '100vw',
+    height: '100%',
   },
   selected: {
     backgroundColor: '#999',
