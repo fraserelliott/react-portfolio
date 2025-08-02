@@ -10,13 +10,13 @@ const pages = [
 const Navbar = () => {
   const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
   const [currentProject, setCurrentProject] = useGlobalStore('currentProject');
-  const [authorised] = useGlobalStore('authorised');
+  const [loginData, setLoginData] = useGlobalStore('loginData');
 
   const renderPageLinks = () => {
     return (
       <ul className={styles.navList}>
         {pages.map((page) => renderPageLink(page))}
-        {authorised && renderPageLink({ name: 'Dashboard', key: 'dashboard' })}
+        {loginData && renderPageLink({ name: 'Dashboard', key: 'dashboard' })}
       </ul>
     );
   };

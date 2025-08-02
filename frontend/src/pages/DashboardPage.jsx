@@ -3,12 +3,12 @@ import Dashboard from '../components/Dashboard';
 import LoginForm from '../components/LoginForm';
 
 const DashboardPage = () => {
-  const [authorised, setAuthorised] = useGlobalStore('authorised');
+  const [loginData, setLoginData] = useGlobalStore('loginData');
 
   return (
     <>
-      {!authorised && <LoginForm />}
-      {authorised && <Dashboard />}
+      {!loginData && <LoginForm />}
+      {loginData && <Dashboard />}
     </>
   );
 };

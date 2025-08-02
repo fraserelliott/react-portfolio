@@ -4,7 +4,7 @@ const GlobalStoreContext = createContext(null);
 
 export function GlobalStoreProvider({ children }) {
   const [currentPage, setCurrentPage] = useState('home');
-  const [authorised, setAuthorised] = useState(false);
+  const [loginData, setLoginData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [currentProject, setCurrentProject] = useState();
@@ -13,6 +13,15 @@ export function GlobalStoreProvider({ children }) {
   useEffect(() => {
     loadProjects();
     loadTags();
+
+    // Load saved data from sessionStorage on mount
+    const savedPage = sessionStorage.getItem('page');
+    if (savedPage)
+      setCurrentPage(savedPage);
+
+    const loginData = sessionStorage.getItem('loginData');
+    if (loginData)
+      setLoginData(JSON.parse(loginData));
   }, []);
 
   // Save page to sessionStorage when it changes
@@ -22,10 +31,10 @@ export function GlobalStoreProvider({ children }) {
 
   const value = {
     currentPageState: [currentPage, setCurrentPage],
-    authorisedState: [authorised, setAuthorised],
-    projects: [projects, setProjects],
-    tags: [tags, setTags],
-    currentProject: [currentProject, setCurrentProject],
+    loginDataState: [loginData, setLoginData],
+    projectsState: [projects, setProjects],
+    tagsState: [tags, setTags],
+    currentProjectState: [currentProject, setCurrentProject],
   };
 
   const loadProjects = () => {
@@ -81,14 +90,14 @@ export function useGlobalStore(key) {
   switch (key) {
     case 'currentPage':
       return context.currentPageState;
-    case 'authorised':
-      return context.authorisedState;
+    case 'loginData':
+      return context.loginDataState;
     case 'projects':
-      return context.projects;
+      return context.projectsState;
     case 'tags':
-      return context.tags;
+      return context.tagsState;
     case 'currentProject':
-      return context.currentProject;
+      return context.currentProjectState;
     default:
       throw new Error(`Unknown global store key: ${key}`);
   }

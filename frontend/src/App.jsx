@@ -8,15 +8,6 @@ import DashboardPage from './pages/DashboardPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
-
-  useEffect(() => {
-    // Load saved page from sessionStorage on mount
-    const savedPage = sessionStorage.getItem('page');
-    if (savedPage) {
-      setCurrentPage(savedPage);
-    }
-  }, []);
-
   return (
     <Layout>
       {currentPage === 'home' && <HomePage />}

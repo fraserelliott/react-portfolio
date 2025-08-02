@@ -20,7 +20,7 @@ const Footer = () => {
           {' | '}
         </span>
       ))}
-      <span role="link" onClick={() => setCurrentPage('dashboard')}>
+      <span role="link" onClick={() => setCurrentPage('dashboard')} style={{cursor: 'pointer'}}>
         🔧
       </span>
     </footer>
