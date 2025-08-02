@@ -28,7 +28,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
       ...formData,
       tags: isChecked
         ? [...formData.tags, tag]
-        : formData.tags.filter((t) => t.id !== tag.id),
+        : formData.tags.filter((t) => t.name !== tag.name),
     });
   };
 
@@ -66,6 +66,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
           onFilterUpdate={(tag, isChecked) =>
             handleTagFilterUpdate(tag, isChecked)
           }
+          onCreateTag={(tag) => handleTagFilterUpdate(tag, true)}
         />
       </div>
       <input

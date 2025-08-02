@@ -28,6 +28,18 @@ const TagFilter = (props) => {
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
+  const showNewTag = () => {
+    return props.onCreateTag && normalise(searchTerm) && !isExactMatch();
+  };
+
+  const isExactMatch = () => {
+    const allTags = [...tags, ...props.selectedTags];
+    console.log(allTags);
+    return allTags.some((tag) => normalise(tag.name) === normalise(searchTerm));
+  };
+
+  const normalise = (str) => str.trim().toLowerCase();
+
   const renderDropdown = () => {
     return (
       <div style={styles.tagContainer} ref={dropdownRef}>
@@ -55,6 +67,16 @@ const TagFilter = (props) => {
                 />
               );
             })}
+          {showNewTag() && (
+            <li
+              style={styles.newTag}
+              onClick={() => {
+                if (props.onCreateTag) props.onCreateTag({name: normalise(searchTerm)});
+              }}
+            >
+              {normalise(searchTerm)} (create)
+            </li>
+          )}
         </ul>
       </div>
     );
@@ -106,7 +128,8 @@ const TagFilterItem = ({ tag, selectedTags, onChecked }) => {
       <span
         style={styles.label}
         onClick={(e) => {
-          if (onChecked) onChecked(tag, !selectedTags.some((t) => t.id === tag.id));
+          if (onChecked)
+            onChecked(tag, !selectedTags.some((t) => t.id === tag.id));
         }}
       >
         {tag.name}
@@ -145,6 +168,9 @@ const styles = {
   },
   button: { margin: '0.5rem' },
   label: { cursor: 'pointer' },
+  newTag: {
+    fontStyle: 'italic',
+  },
 };
 
 export default TagFilter;
