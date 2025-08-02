@@ -71,10 +71,10 @@ const TagFilter = (props) => {
             <li
               style={styles.newTag}
               onClick={() => {
-                if (props.onCreateTag) props.onCreateTag({name: normalise(searchTerm)});
+                if (props.onCreateTag) props.onCreateTag({ name: searchTerm.trim() });
               }}
             >
-              {normalise(searchTerm)} (create)
+              {searchTerm.trim()} (create)
             </li>
           )}
         </ul>

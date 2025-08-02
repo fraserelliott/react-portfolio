@@ -24,12 +24,45 @@ const Dashboard = () => {
 
   const saveAndCloseForm = async (formData, uploadData) => {
     let newData = { ...formData };
-    newData.tags = formData.tags.map(t => t.id);
+    const tagIds = [];
+
+    // Create tags that don't yet have an ID. Strip down tags to only IDs in the new array as that's what the API expects.
+    for (const tag of formData.tags) {
+      if (!tag.id) {
+        try {
+          const res = await fetch('http://127.0.0.1:3001/api/tags', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${loginData.token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tag),
+          });
+
+          if (!res.ok) {
+            // TODO: error message
+            console.error('Tag creation failed');
+            return;
+          }
+
+          const data = await res.json();
+          tagIds.push(data.id);
+        } catch (err) {
+          console.error('Error creating tag', err);
+          // TODO: error message
+          return;
+        }
+      } else {
+        tagIds.push(tag.id);
+      }
+    }
+    newData.tags = tagIds;
+
     // Upload image if one has been selected
     if (uploadData) {
       try {
         const fileData = new FormData();
-        fileData.append("image", uploadData);
+        fileData.append('image', uploadData);
         const res = await fetch('http://127.0.0.1:3001/api/upload', {
           method: 'POST',
           headers: {
@@ -70,10 +103,9 @@ const Dashboard = () => {
       const data = await res.json();
 
       setProjects((prev) => {
-        if (mode === "edit")
-          return prev.map((p) => (p.id === data.id ? data : p))
-        else
-          return [...prev, data];
+        if (mode === 'edit')
+          return prev.map((p) => (p.id === data.id ? data : p));
+        else return [...prev, data];
       });
     } catch (err) {
       console.error('Update/creation error', err);
@@ -90,7 +122,9 @@ const Dashboard = () => {
         <>
           <TagFilter
             selectedTags={selectedTags}
-            onFilterUpdate={(tag, isChecked) => handleTagFilterUpdate(tag, isChecked)}
+            onFilterUpdate={(tag, isChecked) =>
+              handleTagFilterUpdate(tag, isChecked)
+            }
           />
           <ProjectPreviewPanel
             selectedTags={selectedTags}
