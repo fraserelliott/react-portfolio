@@ -135,6 +135,7 @@ const styles = {
     right: '10px',
     whiteSpace: 'nowrap',
     padding: '0.25rem',
+    zIndex: '100'
   },
   tagList: { listStyle: 'none' },
   input: {

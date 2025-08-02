@@ -50,29 +50,31 @@ const ProjectPreview = ({ project, onClick }) => {
   return (
     <div
       className={styles.project}
-      onClick={() => {
-        if (onClick) onClick();
-      }}
     >
-      <a href={project.repoLink} target="_blank">
+      <div className={styles.projectMain} onClick={() => {
+        if (onClick) onClick();
+      }}>
         <h1 className={styles.centered}>{project.title}</h1>
-      </a>
-      {project.tags.length > 0 && (
+        {project.tags.length > 0 && (
         <h2 className={styles.centered}>
           {project.tags.map((tag) => tag.name).join(', ')}
         </h2>
-      )}
-      {project.imageUrl && (
+        )}
+        {project.imageUrl && (
         <div className={styles.centered}>
           <img src={project.imageUrl} height="150" alt={project.title} />
         </div>
-      )}
-      <p
-        className={styles.projectContent}
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(project.content),
-        }}
-      ></p>
+        )}
+        <p
+          className={styles.projectContent}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(project.content),
+          }}
+        ></p>
+        <a href={project.repoLink} target="_blank">
+          <h2 className={styles.centered}>GitHub Link</h2>
+        </a>
+      </div>
     </div>
   );
 };

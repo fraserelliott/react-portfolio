@@ -13,10 +13,34 @@
   height: 400px;
   margin: 20px;
   padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.project:hover {
+  transform: translateY(-3px);
+  background-color: #24344d;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.projectMain {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .project > * {
   margin-bottom: 0.5rem;
+}
+
+.projectMain > * {
+  margin-bottom: 0.5rem;
+}
+
+.projectContent {
+  flex-grow: 1;
 }
 
 .centered {
