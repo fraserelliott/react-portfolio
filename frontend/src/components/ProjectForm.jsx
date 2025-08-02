@@ -14,6 +14,7 @@ const BLANK_FORM = {
 const ProjectForm = ({ project, mode, onCancel, onSave }) => {
   const [formData, setFormData] = useState(BLANK_FORM);
   const [uploadData, setUploadData] = useState(null);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     if (project) setFormData({ ...project });
@@ -46,7 +47,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
       </div>
       <div className="flex">
         <TagDisplay tags={formData.tags} />
-        <TagFilter selectedTags={formData.tags} />
+        <TagFilter selectedTags={formData.tags} onFilterUpdate={} />
       </div>
       <input
         type="text"

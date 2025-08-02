@@ -8,13 +8,19 @@ const ProjectsPage = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useGlobalStore('currentProject');
 
+  const handleTagFilterUpdate = (tag, isChecked) => {
+    setSelectedTags((prev) =>
+      isChecked ? [...prev, tag] : prev.filter((t) => t.id !== tag.id)
+    );
+  };
+
   return (
     <>
       {!currentProject && (
         <>
           <TagFilter
             selectedTags={selectedTags}
-            onFilterUpdate={(tags) => setSelectedTags(tags)}
+            onFilterUpdate={(tag, isChecked) => handleTagFilterUpdate(tag, isChecked)}
           />
           <ProjectPreviewPanel
             selectedTags={selectedTags}

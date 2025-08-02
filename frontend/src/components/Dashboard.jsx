@@ -16,6 +16,12 @@ const Dashboard = () => {
     setCurrentProject(null);
   };
 
+  const handleTagFilterUpdate = (tag, isChecked) => {
+    setSelectedTags((prev) =>
+      isChecked ? [...prev, tag] : prev.filter((t) => t.id !== tag.id)
+    );
+  };
+
   const saveAndCloseForm = async (formData, uploadData) => {
     let newData = { ...formData };
     newData.tags = formData.tags.map(t => t.id);
@@ -84,7 +90,7 @@ const Dashboard = () => {
         <>
           <TagFilter
             selectedTags={selectedTags}
-            onFilterUpdate={(tags) => setSelectedTags(tags)}
+            onFilterUpdate={(tag, isChecked) => handleTagFilterUpdate(tag, isChecked)}
           />
           <ProjectPreviewPanel
             selectedTags={selectedTags}
