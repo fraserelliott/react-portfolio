@@ -26,7 +26,7 @@ const ProjectPreviewPanel = (props) => {
     if (props.selectedTags && props.selectedTags.length > 0)
       filteredProjects = filteredProjects.filter((project) =>
         project.tags.some((tag) =>
-          props.selectedTags.some((selected) => selected === tag.id)
+          props.selectedTags.some((selected) => selected.id === tag.id)
         )
       );
 

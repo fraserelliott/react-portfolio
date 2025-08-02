@@ -49,8 +49,8 @@ const TagFilter = (props) => {
                   key={tag.id}
                   tag={tag}
                   selectedTags={props.selectedTags}
-                  onChecked={(tagId, isChecked) =>
-                    handleTagToggle(tagId, isChecked)
+                  onChecked={(tag, isChecked) =>
+                    handleTagToggle(tag, isChecked)
                   }
                 />
               );
@@ -60,9 +60,9 @@ const TagFilter = (props) => {
     );
   };
 
-  const handleTagToggle = (tagId, isChecked) => {
-    if (isChecked) props.onFilterUpdate((prev) => [...prev, tagId]);
-    else props.onFilterUpdate((prev) => prev.filter((id) => id !== tagId));
+  const handleTagToggle = (tag, isChecked) => {
+    if (isChecked) props.onFilterUpdate((prev) => [...prev, tag]);
+    else props.onFilterUpdate((prev) => prev.filter((t) => t.id !== tag.id));
   };
 
   return (
@@ -99,15 +99,15 @@ const TagFilterItem = ({ tag, selectedTags, onChecked }) => {
     <li>
       <input
         type="checkbox"
-        checked={selectedTags.includes(tag.id)}
+        checked={selectedTags.includes(tag)}
         onChange={(e) => {
-          if (onChecked) onChecked(tag.id, e.target.checked);
+          if (onChecked) onChecked(tag, e.target.checked);
         }}
       />
       <span
         style={styles.label}
         onClick={(e) => {
-          if (onChecked) onChecked(tag.id, !selectedTags.includes(tag.id));
+          if (onChecked) onChecked(tag, !selectedTags.includes(tag));
         }}
       >
         {tag.name}
@@ -135,7 +135,7 @@ const styles = {
     right: '10px',
     whiteSpace: 'nowrap',
     padding: '0.25rem',
-    zIndex: '100'
+    zIndex: '100',
   },
   tagList: { listStyle: 'none' },
   input: {
