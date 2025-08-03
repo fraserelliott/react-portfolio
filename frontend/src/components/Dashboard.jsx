@@ -7,9 +7,16 @@ import ProjectForm from './ProjectForm';
 const Dashboard = () => {
   const [projects, setProjects] = useGlobalStore('projects');
   const [loginData, setLoginData] = useGlobalStore('loginData');
+  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
   const [mode, setMode] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
+
+  const logout = () => {
+    sessionStorage.removeItem('loginData');
+    setLoginData(null);
+    setCurrentPage('home');
+  };
 
   const openForm = (newMode, project) => {
     setMode(newMode);
@@ -27,11 +34,25 @@ const Dashboard = () => {
     );
   };
 
+  /**
+   * Handles form submission by:
+   * - Validating required fields
+   * - Creating new tags if needed
+   * - Uploading an image if provided
+   * - Sending a POST or PUT request to save the project
+   * - Updating the project list and closing the form
+   */
   const saveAndCloseForm = async (formData, uploadData) => {
     let newData = { ...formData };
-    const tagIds = [];
 
-    // Create tags that don't yet have an ID. Strip down tags to only IDs in the new array as that's what the API expects.
+    if (!newData.title || !newData.repoLink || !newData.content) {
+      // TODO: error message
+      return;
+    }
+
+    const tagIds = [];
+    // Loop through submitted tags. Create new ones via the API if they don't have an ID yet, and collect all tag IDs into an array for the final post payload.
+
     for (const tag of formData.tags) {
       if (!tag.id) {
         try {
@@ -63,7 +84,7 @@ const Dashboard = () => {
     }
     newData.tags = tagIds;
 
-    // Upload image if one has been selected
+    // If an image was provided, upload it and attach the resulting URL to the post data.
     if (uploadData) {
       try {
         const fileData = new FormData();
@@ -91,7 +112,7 @@ const Dashboard = () => {
       }
     }
 
-    // PUT or POST to API depending on whether mode is edit or create
+    // Decide whether to create a new post or update an existing one based on the mode.
     const url = `http://127.0.0.1:3001/api/posts${
       mode === 'edit' ? '/' + currentProject.id : ''
     }`;
@@ -107,6 +128,7 @@ const Dashboard = () => {
 
       const data = await res.json();
 
+      // After saving, update the project list in state—replacing or appending depending on mode.
       setProjects((prev) => {
         if (mode === 'edit')
           return prev.map((p) => (p.id === data.id ? data : p));
@@ -126,7 +148,7 @@ const Dashboard = () => {
       {!mode && (
         <>
           <div className="flex justify-end horizontal-spacing my-2">
-            <button>Logout</button>
+            <button onClick={() => logout()}>Logout</button>
             <button onClick={() => openForm('create', null)}>New Post</button>
             <TagFilter
               selectedTags={selectedTags}

@@ -56,10 +56,12 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
         />
       </div>
       <div className="flex">
+        {/* Show currently selected tags and allow removing them */}
         <TagDisplay
           tags={formData.tags}
           onRemoveTag={(tag) => handleTagFilterUpdate(tag, false)}
         />
+        {/* TagFilter used here to select/add new tags *for this project* (not for filtering project list) */}
         <TagFilter
           selectedTags={formData.tags}
           onFilterUpdate={(tag, isChecked) =>
@@ -76,6 +78,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
           setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
         }
       />
+      {/* Display the final image URL after upload (read-only) */}
       <input type="text" readOnly value={formData.imageUrl} />
       <ImageUpload
         uploadData={uploadData}
@@ -97,7 +100,9 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
             Save & Close
           </button>
         </div>
-        <div>{mode && <button className="btn-danger">Delete</button>}</div>
+        <div>
+          {mode === 'edit' && <button className="btn-danger">Delete</button>}
+        </div>
       </div>
     </div>
   );
