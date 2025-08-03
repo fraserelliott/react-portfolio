@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProjectPreviewPanel from '../components/ProjectPreviewPanel';
 import Project from '../components/Project';
-import TagFilter from '../components/TagFilter';
+import TagSelector from '../components/TagSelector';
 import { useGlobalStore } from '../components/GlobalStoreProvider';
 
 const ProjectsPage = () => {
@@ -19,9 +19,10 @@ const ProjectsPage = () => {
       {!currentProject && (
         <>
           <div className="flex justify-end my-2">
-            <TagFilter
+            <TagSelector
+              buttonText="Filter"
               selectedTags={selectedTags}
-              onFilterUpdate={(tag, isChecked) =>
+              onTagToggle={(tag, isChecked) =>
                 handleTagFilterUpdate(tag, isChecked)
               }
             />

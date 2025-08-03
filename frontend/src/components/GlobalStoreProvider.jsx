@@ -2,32 +2,14 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const GlobalStoreContext = createContext(null);
 
+// Provider component that wraps the app and provides global state via context
 export function GlobalStoreProvider({ children }) {
+  // Define all global state pieces here and how the context accesses them
   const [currentPage, setCurrentPage] = useState('home');
   const [loginData, setLoginData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [currentProject, setCurrentProject] = useState();
-
-  // Load data on mount
-  useEffect(() => {
-    loadProjects();
-    loadTags();
-
-    // Load saved data from sessionStorage on mount
-    const savedPage = sessionStorage.getItem('page');
-    if (savedPage)
-      setCurrentPage(savedPage);
-
-    const loginData = sessionStorage.getItem('loginData');
-    if (loginData)
-      setLoginData(JSON.parse(loginData));
-  }, []);
-
-  // Save page to sessionStorage when it changes
-  useEffect(() => {
-    sessionStorage.setItem('page', currentPage);
-  }, [currentPage]);
 
   const value = {
     currentPageState: [currentPage, setCurrentPage],
@@ -36,6 +18,20 @@ export function GlobalStoreProvider({ children }) {
     tagsState: [tags, setTags],
     currentProjectState: [currentProject, setCurrentProject],
   };
+
+  // Load data from API and session storage on mount
+  useEffect(() => {
+    loadProjects();
+    loadTags();
+
+    const savedPage = sessionStorage.getItem('page');
+    if (savedPage)
+      setCurrentPage(savedPage);
+
+    const loginData = sessionStorage.getItem('loginData');
+    if (loginData)
+      setLoginData(JSON.parse(loginData));
+  }, []);
 
   const loadProjects = () => {
     fetch('http://127.0.0.1:3001/api/posts')
@@ -73,6 +69,11 @@ export function GlobalStoreProvider({ children }) {
       });
   };
 
+  // Save page to sessionStorage when it changes
+  useEffect(() => {
+    sessionStorage.setItem('page', currentPage);
+  }, [currentPage]);
+
   return (
     <GlobalStoreContext.Provider value={value}>
       {children}
@@ -80,7 +81,25 @@ export function GlobalStoreProvider({ children }) {
   );
 }
 
-// Hook to access any global state by key
+/**
+ * Custom hook to access and update global app state by key.
+ * 
+ * Usage:
+ *   const [value, setValue] = useGlobalStore('projects');
+ * 
+ * Supported keys:
+ * - 'currentPage'
+ * - 'loginData'
+ * - 'projects'
+ * - 'tags'
+ * - 'currentProject'
+ * 
+ * Must be used within a <GlobalStoreProvider> context. If <App> is wrapped by <GlobalStoreProvider> (e.g., in main.jsx), then this hook will be available in any component within <App>.
+ * 
+ * @param {string} key - The key identifying the piece of global state to access.
+ * @returns {[any, Function]} The state value and setter function for the given key.
+ * @throws Will throw an error if used outside GlobalStoreProvider or with an unknown key.
+ */
 export function useGlobalStore(key) {
   const context = useContext(GlobalStoreContext);
   if (!context) {

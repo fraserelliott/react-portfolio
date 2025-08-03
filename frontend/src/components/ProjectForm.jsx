@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import TagFilter from './TagFilter';
+import TagSelector from './TagSelector';
 import ImageUpload from './ImageUpload';
 
 const BLANK_FORM = {
@@ -22,7 +22,7 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
 
   // TODO: delete button
 
-  const handleTagFilterUpdate = (tag, isChecked) => {
+  const handleTagToggle = (tag, isChecked) => {
     setFormData({
       ...formData,
       tags: isChecked
@@ -59,15 +59,15 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
         {/* Show currently selected tags and allow removing them */}
         <TagDisplay
           tags={formData.tags}
-          onRemoveTag={(tag) => handleTagFilterUpdate(tag, false)}
+          onRemoveTag={(tag) => handleTagToggle(tag, false)}
         />
-        {/* TagFilter used here to select/add new tags *for this project* (not for filtering project list) */}
-        <TagFilter
+        <TagSelector
+          buttonText="Select Tags"
           selectedTags={formData.tags}
-          onFilterUpdate={(tag, isChecked) =>
-            handleTagFilterUpdate(tag, isChecked)
+          onTagToggle={(tag, isChecked) =>
+            handleTagToggle(tag, isChecked)
           }
-          onCreateTag={(tag) => handleTagFilterUpdate(tag, true)}
+          onCreateTag={(tag) => handleTagToggle(tag, true)}
         />
       </div>
       <input

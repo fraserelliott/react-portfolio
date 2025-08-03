@@ -1,9 +1,7 @@
 import { useGlobalStore } from './GlobalStoreProvider';
 import { useState, useRef, useEffect } from 'react';
 
-// TODO: react-flip-toolkit for smoother filtering animations
-
-const TagFilter = (props) => {
+const TagSelector = (props) => {
   const [tags, setTags] = useGlobalStore('tags');
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,6 +31,7 @@ const TagFilter = (props) => {
   };
 
   const isExactMatch = () => {
+    // Include selectedTags since it may contain new tags not yet in the global tag list (if the creation callback is being used)
     const allTags = [...tags, ...props.selectedTags];
     console.log(allTags);
     return allTags.some((tag) => normalise(tag.name) === normalise(searchTerm));
@@ -57,7 +56,7 @@ const TagFilter = (props) => {
             )
             .map((tag) => {
               return (
-                <TagFilterItem
+                <TagSelectorItem
                   key={tag.id}
                   tag={tag}
                   selectedTags={props.selectedTags}
@@ -84,7 +83,7 @@ const TagFilter = (props) => {
   };
 
   const handleTagToggle = (tag, isChecked) => {
-    props.onFilterUpdate(tag, isChecked);
+    props.onTagToggle(tag, isChecked);
   };
 
   return (
@@ -103,14 +102,14 @@ const TagFilter = (props) => {
         >
           <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
         </svg>
-        Filter
+        {props.buttonText}
       </button>
       {open && renderDropdown()}
     </div>
   );
 };
 
-const TagFilterItem = ({ tag, selectedTags, onChecked }) => {
+const TagSelectorItem = ({ tag, selectedTags, onChecked }) => {
   return (
     <li>
       <input
@@ -163,4 +162,4 @@ const styles = {
   },
 };
 
-export default TagFilter;
+export default TagSelector;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useGlobalStore } from './GlobalStoreProvider';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
-import TagFilter from './TagFilter';
+import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
 
 const Dashboard = () => {
@@ -150,9 +150,10 @@ const Dashboard = () => {
           <div className="flex justify-end horizontal-spacing my-2">
             <button onClick={() => logout()}>Logout</button>
             <button onClick={() => openForm('create', null)}>New Post</button>
-            <TagFilter
+            <TagSelector
+              buttonText="Filter"
               selectedTags={selectedTags}
-              onFilterUpdate={(tag, isChecked) =>
+              onTagToggle={(tag, isChecked) =>
                 handleTagFilterUpdate(tag, isChecked)
               }
             />
