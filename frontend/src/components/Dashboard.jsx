@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGlobalStore } from './GlobalStoreProvider';
+import { useGlobalStore, addToastMessage } from './GlobalStoreProvider';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
 import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
@@ -18,6 +18,7 @@ const Dashboard = () => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
     setCurrentPage('home');
+    addToastMessage("You've been logged out.")
   };
 
   const openForm = (newMode, project) => {
