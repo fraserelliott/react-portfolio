@@ -13,16 +13,12 @@ const Dashboard = () => {
   const [currentProject, setCurrentProject] = useState(null);
   const { addToastMessage } = useToast();
 
-  // TODO: checkAuthFail to force logout on protected routes failing
-
   const logout = (forced) => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
     setCurrentPage('home');
-    if (forced)
-      addToastMessage("You've been logged out.", 'error');
-    else
-      addToastMessage("You've been logged out.", 'success');
+    if (forced) addToastMessage("You've been logged out.", 'error');
+    else addToastMessage("You've been logged out.", 'success');
   };
 
   const openForm = (newMode, project) => {
@@ -52,7 +48,8 @@ const Dashboard = () => {
       });
 
       if (!res.ok) {
-        const { error} = await res.json();
+        checkAuthFail(res);
+        const { error } = await res.json();
         addToastMessage(error, 'error');
         return;
       }
@@ -60,7 +57,7 @@ const Dashboard = () => {
       const data = await res.json();
       setProjects((prev) => prev.filter((p) => p.id !== data.id));
       closeForm();
-      addToastMessage("Post successfully deleted.", 'success');
+      addToastMessage('Post successfully deleted.', 'success');
     } catch (err) {
       addToastMessage(err.message || 'Error deleting post.', 'error');
       return;
@@ -102,7 +99,8 @@ const Dashboard = () => {
           });
 
           if (!res.ok) {
-            const { error} = await res.json();
+            checkAuthFail(res);
+            const { error } = await res.json();
             addToastMessage(error, 'error');
             return;
           }
@@ -133,7 +131,8 @@ const Dashboard = () => {
         });
 
         if (!res.ok) {
-          const { error} = await res.json();
+          checkAuthFail(res);
+          const { error } = await res.json();
           addToastMessage(error, 'error');
           return;
         }
@@ -161,7 +160,8 @@ const Dashboard = () => {
       });
 
       if (!res.ok) {
-        const { error} = await res.json();
+        checkAuthFail(res);
+        const { error } = await res.json();
         addToastMessage(error, 'error');
         return;
       }
@@ -175,16 +175,23 @@ const Dashboard = () => {
         else return [...prev, data];
       });
     } catch (err) {
-      addToastMessage(err.message || 'Error updating or creating post', 'error');
+      addToastMessage(
+        err.message || 'Error updating or creating post',
+        'error'
+      );
       return;
     }
 
     if (mode === 'edit')
-      addToastMessage("Post successfully updated.", 'success');
-    else
-      addToastMessage("Post successfully created.", 'success');
+      addToastMessage('Post successfully updated.', 'success');
+    else addToastMessage('Post successfully created.', 'success');
 
     closeForm();
+  };
+
+  // Force logout on API authorisation error, used in every API call that requires auth.
+  const checkAuthFail = (res) => {
+    if (res.status == 401) logout(true);
   };
 
   return (
@@ -192,7 +199,7 @@ const Dashboard = () => {
       {!mode && (
         <>
           <div className="flex justify-end horizontal-spacing my-2">
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => logout(false)}>Logout</button>
             <button onClick={() => openForm('create', null)}>New Post</button>
             <TagSelector
               buttonText="Filter"

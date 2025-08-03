@@ -93,7 +93,7 @@ export function useGlobalStore(key) {
 export function useToast() {
   const [toastMessages, setToastMessages] = useGlobalStore('toastMessages');
 
-  const addToastMessage = (message, type, delayMs = 1350) => {
+  const addToastMessage = (message, type, delayMs = 2350) => {
     const id = uuid();
     const newMessage = {
       id,
