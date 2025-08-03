@@ -3,6 +3,6 @@
   "workspaces": ["frontend", "backend"],
   "scripts": {
     "build": "cd frontend && npm run build",
-    "start": "node server.js"
+    "start": "npm run start"
   }
 }
