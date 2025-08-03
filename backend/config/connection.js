@@ -4,8 +4,13 @@ if (process.env.NODE_ENV !== "production") {
 
 const Sequelize = require("sequelize");
 
+console.log(process.env.DATABASE_URL);
+
 const sequelize = process.env.DATABASE_URL
-    ? new Sequelize(process.env.DATABASE_URL)
+    ? new Sequelize(process.env.DATABASE_URL, {
+      dialect: process.env.DB_DIALECT,
+      logging: process.env.NODE_ENV !== "production"
+    })
     : new Sequelize(
         process.env.DB_DATABASE,
         process.env.DB_USERNAME,
