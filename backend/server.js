@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
+console.log("DB_DIALECT:", process.env.DB_DIALECT);
+
 const { sequelize, testConnection } = require("./config/connection");
 testConnection(); // Exits loudly if there's an issue in the config
 
