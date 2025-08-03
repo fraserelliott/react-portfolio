@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 const GlobalStoreContext = createContext(null);
@@ -21,59 +21,6 @@ export function GlobalStoreProvider({ children }) {
     currentProjectState: [currentProject, setCurrentProject],
     toastMessagesState: [toastMessages, setToastMessages],
   };
-
-  // Load data from API and session storage on mount
-  useEffect(() => {
-    loadProjects();
-    loadTags();
-
-    const savedPage = sessionStorage.getItem('page');
-    if (savedPage) setCurrentPage(savedPage);
-
-    const loginData = sessionStorage.getItem('loginData');
-    if (loginData) setLoginData(JSON.parse(loginData));
-  }, []);
-
-  const loadProjects = () => {
-    fetch('http://127.0.0.1:3001/api/posts')
-      .then((res) => {
-        if (!res.ok) {
-          // TODO: error message
-          return Promise.reject();
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setProjects(data);
-      })
-      .catch((err) => {
-        // TODO: error message
-        console.error(err);
-      });
-  };
-
-  const loadTags = () => {
-    fetch('http://127.0.0.1:3001/api/tags')
-      .then((res) => {
-        if (!res.ok) {
-          // TODO: error message
-          return Promise.reject();
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setTags(data);
-      })
-      .catch((err) => {
-        // TODO: error message
-        console.error(err);
-      });
-  };
-
-  // Save page to sessionStorage when it changes
-  useEffect(() => {
-    sessionStorage.setItem('page', currentPage);
-  }, [currentPage]);
 
   return (
     <GlobalStoreContext.Provider value={value}>
@@ -125,28 +72,52 @@ export function useGlobalStore(key) {
   }
 }
 
-export function addToastMessage(message, delayMs = 1350, type = 'success') {
-  const id = uuid();
-  const newMessage = {
-    id,
-    message,
-    delayMs,
-    type,
-    fading: false,
+/**
+ * Custom React hook to manage toast notifications.
+ *
+ * Provides a function to add toast messages with automatic fading and removal.
+ *
+ * Usage:
+ * const { addToastMessage } = useToast();
+ * addToastMessage("Success!", "success", 1500);
+ *
+ * @returns {Object} An object containing:
+ *   - addToastMessage: Function to add a toast notification.
+ *
+ * @typedef {('success'|'error')} ToastType
+ *
+ * @param {string} message - The message text to display in the toast.
+ * @param {ToastType} type - The type of the toast, affecting its style.
+ * @param {number} [delayMs=1350] - Duration in milliseconds before the toast starts fading out.
+ */
+export function useToast() {
+  const [toastMessages, setToastMessages] = useGlobalStore('toastMessages');
+
+  const addToastMessage = (message, type, delayMs = 1350) => {
+    const id = uuid();
+    const newMessage = {
+      id,
+      message,
+      delayMs,
+      type,
+      fading: false,
+    };
+
+    setToastMessages((prev) => [...prev, newMessage]);
+
+    // Schedule fading and removal
+    setTimeout(() => {
+      setToastMessages((prev) =>
+        prev.map((msg) => {
+          return msg.id === id ? { ...msg, fading: true } : msg;
+        })
+      );
+
+      setTimeout(() => {
+        setToastMessages((prev) => prev.filter((msg) => msg.id !== id));
+      }, 150);
+    }, delayMs);
   };
 
-  setToastMessages((prev) => [...prev, newMessage]);
-
-  // Schedule fading and removal
-  setTimeout(() => {
-    setToastMessages((prev) =>
-      prev.map((msg) => {
-        msg.id === id ? { ...msg, fading: true } : msg;
-      })
-    );
-
-    setTimeout(() => {
-      setToastMessages((prev) => prev.filter((msg) => msg.id !== id));
-    }, 150);
-  }, delayMs);
+  return { addToastMessage };
 }

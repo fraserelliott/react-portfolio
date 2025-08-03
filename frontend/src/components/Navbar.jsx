@@ -4,7 +4,6 @@ import styles from './Navbar.module.css';
 const pages = [
   { name: 'Home', key: 'home' },
   { name: 'Projects', key: 'projects' },
-  { name: 'Contact', key: 'contact' },
 ];
 
 const Navbar = () => {

@@ -33,7 +33,6 @@ const TagSelector = (props) => {
   const isExactMatch = () => {
     // Include selectedTags since it may contain new tags not yet in the global tag list (if the creation callback is being used)
     const allTags = [...tags, ...props.selectedTags];
-    console.log(allTags);
     return allTags.some((tag) => normalise(tag.name) === normalise(searchTerm));
   };
 

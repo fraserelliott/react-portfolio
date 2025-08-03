@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGlobalStore, addToastMessage } from './GlobalStoreProvider';
+import { useGlobalStore, useToast } from '../components/GlobalStoreProvider';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
 import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [mode, setMode] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
+  const { addToastMessage } = useToast();
 
   // TODO: checkAuthFail to force logout on protected routes failing
 
@@ -18,7 +19,7 @@ const Dashboard = () => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
     setCurrentPage('home');
-    addToastMessage("You've been logged out.")
+    addToastMessage("You've been logged out.", 'success');
   };
 
   const openForm = (newMode, project) => {
@@ -49,8 +50,7 @@ const Dashboard = () => {
 
       if (!res.ok) {
         const errorMsg = await res.text();
-        // TODO: error message
-        console.error('Error deleting post', res.status, errorMsg);
+        addToastMessage(errorMsg, 'error');
         return;
       }
 
@@ -58,8 +58,7 @@ const Dashboard = () => {
       setProjects((prev) => prev.filter((p) => p.id !== data.id));
       closeForm();
     } catch (err) {
-      console.error('Error deleting post', err);
-      // TODO: error message
+      addToastMessage(err.message || 'Error deleting post.', 'error');
       return;
     }
   };
@@ -76,7 +75,10 @@ const Dashboard = () => {
     let newData = { ...formData };
 
     if (!newData.title || !newData.repoLink || !newData.content) {
-      // TODO: error message
+      addToastMessage(
+        'Title, repo link and content are mandatory fields.',
+        'error'
+      );
       return;
     }
 
@@ -96,16 +98,15 @@ const Dashboard = () => {
           });
 
           if (!res.ok) {
-            // TODO: error message
-            console.error('Tag creation failed');
+            const errorMsg = await res.text();
+            addToastMessage(errorMsg, 'error');
             return;
           }
 
           const data = await res.json();
           tagIds.push(data.id);
         } catch (err) {
-          console.error('Error creating tag', err);
-          // TODO: error message
+          addToastMessage(err.message || 'Error creating tag.', 'error');
           return;
         }
       } else {
@@ -128,16 +129,15 @@ const Dashboard = () => {
         });
 
         if (!res.ok) {
-          // TODO: error message
-          console.error('Upload failed');
+          const errorMsg = await res.text();
+          addToastMessage(errorMsg, 'error');
           return;
         }
 
         const data = await res.json();
         newData.imageUrl = data.url;
       } catch (err) {
-        console.error('Upload error', err);
-        // TODO: error message
+        addToastMessage(err.message || 'Error uploading image.', 'error');
         return;
       }
     }
@@ -156,6 +156,12 @@ const Dashboard = () => {
         body: JSON.stringify(newData),
       });
 
+      if (!res.ok) {
+        const errorMsg = await res.text();
+        addToastMessage(errorMsg, 'error');
+        return;
+      }
+
       const data = await res.json();
 
       // After saving, update the project list in state—replacing or appending depending on mode.
@@ -165,8 +171,7 @@ const Dashboard = () => {
         else return [...prev, data];
       });
     } catch (err) {
-      console.error('Update/creation error', err);
-      // TODO: error message
+      addToastMessage(err.message || 'Error updating or creating post', 'error');
       return;
     }
 

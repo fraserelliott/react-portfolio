@@ -4,14 +4,20 @@ const ToastMessageDisplay = () => {
   const [toastMessages, setToastMessages] = useGlobalStore('toastMessages');
 
   const calculateStyle = (toast) => {
-    const style =
-      toast.type === 'success'
-        ? styles.success
-        : toast.type === 'error'
-        ? styles.error
-        : styles.toast;
+    let style;
+    switch (toast.type) {
+      case 'success':
+        style = styles.success;
+        break;
+      case 'error':
+        style = styles.error;
+        break;
+      default:
+        style = styles.toast;
+        break;
+    }
 
-    return toast.fading ? { ...style, ...styles.hide } : styles.toast;
+    return toast.fading ? { ...style, ...styles.hide } : style;
   };
 
   return (
