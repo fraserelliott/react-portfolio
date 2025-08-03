@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
+console.log("🚀 RUNTIME ENV:", JSON.stringify(process.env, null, 2));
+
 const { sequelize, testConnection } = require("./config/connection");
 testConnection(); // Exits loudly if there's an issue in the config
 

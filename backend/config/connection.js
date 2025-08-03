@@ -4,21 +4,27 @@ if (process.env.NODE_ENV !== "production") {
 
 const Sequelize = require("sequelize");
 
-console.log(process.env);
+function createSequelizeInstance() {
+  if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+  }
 
-const sequelize = process.env.DATABASE_URL
+  const sequelize = process.env.DATABASE_URL
     ? new Sequelize(process.env.DATABASE_URL)
     : new Sequelize(
         process.env.DB_DATABASE,
         process.env.DB_USERNAME,
         process.env.DB_PASSWORD,
         {
-            host: process.env.DB_HOST,
-            dialect: process.env.DB_DIALECT,
-            port: process.env.DB_PORT,
-            logging: process.env.NODE_ENV !== "production"
+          host: process.env.DB_HOST,
+          dialect: process.env.DB_DIALECT,
+          port: process.env.DB_PORT,
+          logging: process.env.NODE_ENV !== "production"
         }
-    );
+      );
+
+  return sequelize;
+}
 
 async function testConnection() {
     try {
@@ -29,5 +35,7 @@ async function testConnection() {
         process.exit(1);
     }
 }
+
+const sequelize = createSequelizeInstance();
 
 module.exports = { sequelize, testConnection };
