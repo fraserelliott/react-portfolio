@@ -30,24 +30,25 @@ const AboutSection = () => {
       <div className="flex-grow">
         <h1 className="my-1 mx-1">Hi, I'm Fraser.</h1>
         <p className="mx-1">
-          I am an aspiring developer who started using C# for Windows
-          applications and games before branching into other technologies. I am
-          currently doing a level 4 qualification in full stack development. My
-          academic background is in mathematics and statistics and I'm looking
-          to apply my problem solving skills in a career in development.
-          <br />
-          <br />
-          I've used a range of technologies as I've been learning to program
-          including:
+          Having grown up surrounded by programming conversations and books
+          thanks to my dad, a software developer, I became interested early on
+          by the idea of applying my skills in logic and mathematics to build
+          real, tangible solutions. I started teaching myself to code in school,
+          beginning with Java and later exploring C#, HTML, CSS, and JavaScript.
+          I quickly found ways to apply my skills to help friends and online
+          gaming communities, reinforcing my desire to create software and
+          websites that are both useful and meaningful.<br /><br />
+          
+          After university, life
+          circumstances led me down a different career path. Even so, I
+          continued programming as a hobby. Over time, I built confidence and
+          developed valuable skills in communication, time management, and
+          working in team environments. Recently, I enrolled in a coding
+          bootcamp, dedicating over 30 hours a week to deepen my knowledge and
+          expand my technical toolkit. Now, I'm eager to keep learning in this
+          ever-evolving field and to contribute to meaningful, user-focused
+          software as part of a team.
         </p>
-        <ul style={{ paddingLeft: '1.5rem' }}>
-          <li>C# including WPF</li>
-          <li>Python</li>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>Javascript including Node.js</li>
-          <li>Java including Java Android SDK</li>
-        </ul>
       </div>
       <div>
         <img src={fraser} height="150" />
