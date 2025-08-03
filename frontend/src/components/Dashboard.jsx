@@ -15,11 +15,14 @@ const Dashboard = () => {
 
   // TODO: checkAuthFail to force logout on protected routes failing
 
-  const logout = () => {
+  const logout = (forced) => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
     setCurrentPage('home');
-    addToastMessage("You've been logged out.", 'success');
+    if (forced)
+      addToastMessage("You've been logged out.", 'error');
+    else
+      addToastMessage("You've been logged out.", 'success');
   };
 
   const openForm = (newMode, project) => {
@@ -57,6 +60,7 @@ const Dashboard = () => {
       const data = await res.json();
       setProjects((prev) => prev.filter((p) => p.id !== data.id));
       closeForm();
+      addToastMessage("Post successfully deleted.", 'success');
     } catch (err) {
       addToastMessage(err.message || 'Error deleting post.', 'error');
       return;
@@ -174,6 +178,11 @@ const Dashboard = () => {
       addToastMessage(err.message || 'Error updating or creating post', 'error');
       return;
     }
+
+    if (mode === 'edit')
+      addToastMessage("Post successfully updated.", 'success');
+    else
+      addToastMessage("Post successfully created.", 'success');
 
     closeForm();
   };
