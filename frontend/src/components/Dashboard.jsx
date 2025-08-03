@@ -89,7 +89,7 @@ const Dashboard = () => {
     for (const tag of formData.tags) {
       if (!tag.id) {
         try {
-          const res = await fetch('http://127.0.0.1:3001/api/tags', {
+          const res = await fetch('/api/tags', {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${loginData.token}`,
@@ -122,7 +122,7 @@ const Dashboard = () => {
       try {
         const fileData = new FormData();
         fileData.append('image', uploadData);
-        const res = await fetch('http://127.0.0.1:3001/api/upload', {
+        const res = await fetch('/api/upload', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${loginData.token}`,

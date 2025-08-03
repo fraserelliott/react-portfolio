@@ -6,17 +6,20 @@ const { sequelize, testConnection } = require("./config/connection");
 testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.use(express.json());
-app.use(cors());
+
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors());
+}
 
 const routes = require("./routes/index.route");
 app.use("/api", routes);
 
-// Page for individual project viewing
-app.get("/project/:id", (req, res) => {
-    res.sendFile(path.join(__dirname, "static-pages", "project.html"));
-});
+// TODO: Page for individual project viewing, serve index still but page will need to check href.location
+// app.get("/project/:id", (req, res) => {
+//     res.sendFile(path.join(__dirname, "static-pages", "project.html"));
+// });
 
 // Custom 404 page
 app.all(/.*/, (req, res) => {
