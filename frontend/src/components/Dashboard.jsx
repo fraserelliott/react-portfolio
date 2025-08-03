@@ -14,7 +14,7 @@ const Dashboard = () => {
   const openForm = (newMode, project) => {
     setMode(newMode);
     setCurrentProject(project);
-  }
+  };
 
   const closeForm = () => {
     setMode('');
@@ -125,10 +125,9 @@ const Dashboard = () => {
     <div style={{ height: '100%' }}>
       {!mode && (
         <>
-          <div className="flex justify-end align-center">
-            <div>
-              <button onClick={() => openForm('create', null)}>New Post</button>
-            </div>
+          <div className="flex justify-end horizontal-spacing my-2">
+            <button>Logout</button>
+            <button onClick={() => openForm('create', null)}>New Post</button>
             <TagFilter
               selectedTags={selectedTags}
               onFilterUpdate={(tag, isChecked) =>
@@ -138,7 +137,7 @@ const Dashboard = () => {
           </div>
           <ProjectPreviewPanel
             selectedTags={selectedTags}
-            onClick={(project) => openForm('edit', project) }
+            onClick={(project) => openForm('edit', project)}
           />
         </>
       )}

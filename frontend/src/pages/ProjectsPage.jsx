@@ -18,7 +18,7 @@ const ProjectsPage = () => {
     <>
       {!currentProject && (
         <>
-          <div className="flex justify-end">
+          <div className="flex justify-end my-2">
             <TagFilter
               selectedTags={selectedTags}
               onFilterUpdate={(tag, isChecked) =>

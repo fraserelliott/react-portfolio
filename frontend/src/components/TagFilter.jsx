@@ -89,11 +89,7 @@ const TagFilter = (props) => {
 
   return (
     <div style={styles.wrapper}>
-      <button
-        style={styles.button}
-        ref={toggleButtonRef}
-        onClick={() => setOpen(!open)}
-      >
+      <button ref={toggleButtonRef} onClick={() => setOpen(!open)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -140,6 +136,7 @@ const TagFilterItem = ({ tag, selectedTags, onChecked }) => {
 const styles = {
   wrapper: {
     position: 'relative',
+    marginRight: '1rem',
   },
   tagContainer: {
     position: 'absolute',
@@ -151,7 +148,6 @@ const styles = {
     top: '2.8rem',
     right: '10px',
     whiteSpace: 'nowrap',
-    padding: '0.25rem',
     zIndex: '100',
   },
   tagList: { listStyle: 'none' },
@@ -161,7 +157,6 @@ const styles = {
     color: 'inherit',
     marginBottom: '0.25rem',
   },
-  button: { margin: '0.5rem' },
   label: { cursor: 'pointer' },
   newTag: {
     fontStyle: 'italic',
