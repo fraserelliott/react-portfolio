@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useGlobalStore } from './GlobalStoreProvider';
+import { useGlobalStore, useToast } from './GlobalStoreProvider';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginData, setLoginData] = useGlobalStore('loginData');
+  const { addToastMessage } = useToast();
 
   const attemptLogin = async () => {
     try {
@@ -15,8 +16,8 @@ const LoginForm = () => {
       });
 
       if (!res.ok) {
-        const errorMsg = await res.text();
-        addToastMessage(errorMsg, 'error');
+        const { error} = await res.json();
+        addToastMessage(error, 'error');
         throw new Error('Login request failed');
       }
 

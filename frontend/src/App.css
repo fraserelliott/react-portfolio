@@ -116,6 +116,11 @@ textarea {
   padding: 0.1rem;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
 .horizontal-spacing > * {
   margin-left: 0.25rem;
   margin-right: 0.25rem;

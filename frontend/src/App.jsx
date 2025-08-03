@@ -35,7 +35,7 @@ function App() {
     try {
       const res = await fetch('http://127.0.0.1:3001/api/posts');
       if (!res.ok) {
-        const errorMsg = await res.text();
+        const { error} = await res.json();
         addToastMessage(errorMsg || 'Error loading projects.', 'error');
         return;
       }
@@ -51,7 +51,7 @@ function App() {
     try {
       const res = await fetch('http://127.0.0.1:3001/api/tags');
       if (!res.ok) {
-        const errorMsg = await res.text();
+        const { error} = await res.json();
         addToastMessage(errorMsg || 'Error loading tags.', 'error');
         return;
       }

@@ -49,8 +49,8 @@ const Dashboard = () => {
       });
 
       if (!res.ok) {
-        const errorMsg = await res.text();
-        addToastMessage(errorMsg, 'error');
+        const { error} = await res.json();
+        addToastMessage(error, 'error');
         return;
       }
 
@@ -98,8 +98,8 @@ const Dashboard = () => {
           });
 
           if (!res.ok) {
-            const errorMsg = await res.text();
-            addToastMessage(errorMsg, 'error');
+            const { error} = await res.json();
+            addToastMessage(error, 'error');
             return;
           }
 
@@ -129,8 +129,8 @@ const Dashboard = () => {
         });
 
         if (!res.ok) {
-          const errorMsg = await res.text();
-          addToastMessage(errorMsg, 'error');
+          const { error} = await res.json();
+          addToastMessage(error, 'error');
           return;
         }
 
@@ -157,8 +157,8 @@ const Dashboard = () => {
       });
 
       if (!res.ok) {
-        const errorMsg = await res.text();
-        addToastMessage(errorMsg, 'error');
+        const { error} = await res.json();
+        addToastMessage(error, 'error');
         return;
       }
 
