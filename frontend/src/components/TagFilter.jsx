@@ -71,7 +71,8 @@ const TagFilter = (props) => {
             <li
               style={styles.newTag}
               onClick={() => {
-                if (props.onCreateTag) props.onCreateTag({ name: searchTerm.trim() });
+                if (props.onCreateTag)
+                  props.onCreateTag({ name: searchTerm.trim() });
               }}
             >
               {searchTerm.trim()} (create)
@@ -87,30 +88,28 @@ const TagFilter = (props) => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.wrapper}>
-        <button
-          style={styles.button}
-          ref={toggleButtonRef}
-          onClick={() => setOpen(!open)}
+    <div style={styles.wrapper}>
+      <button
+        style={styles.button}
+        ref={toggleButtonRef}
+        onClick={() => setOpen(!open)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
-          >
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-          </svg>
-          Filter
-        </button>
-        {open && renderDropdown()}
-      </div>
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+        Filter
+      </button>
+      {open && renderDropdown()}
     </div>
   );
 };
@@ -139,10 +138,6 @@ const TagFilterItem = ({ tag, selectedTags, onChecked }) => {
 };
 
 const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'end',
-  },
   wrapper: {
     position: 'relative',
   },

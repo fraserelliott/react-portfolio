@@ -20,7 +20,6 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
     else setFormData(BLANK_FORM);
   }, [project]);
 
-  // TODO: hook into props on TagDisplay and TagFilter to make the 2 work with each other
   // TODO: delete button
 
   const handleTagFilterUpdate = (tag, isChecked) => {
@@ -72,12 +71,12 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
       <input
         type="text"
         placeholder="Repo link"
-        value={project.repoLink}
+        value={formData.repoLink}
         onChange={(e) =>
           setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
         }
       />
-      <input type="text" readOnly value={project.imageUrl} />
+      <input type="text" readOnly value={formData.imageUrl} />
       <ImageUpload
         uploadData={uploadData}
         onFileSelect={(data) => setUploadData(data)}

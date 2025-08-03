@@ -18,10 +18,14 @@ const ProjectsPage = () => {
     <>
       {!currentProject && (
         <>
-          <TagFilter
-            selectedTags={selectedTags}
-            onFilterUpdate={(tag, isChecked) => handleTagFilterUpdate(tag, isChecked)}
-          />
+          <div className="flex justify-end">
+            <TagFilter
+              selectedTags={selectedTags}
+              onFilterUpdate={(tag, isChecked) =>
+                handleTagFilterUpdate(tag, isChecked)
+              }
+            />
+          </div>
           <ProjectPreviewPanel
             selectedTags={selectedTags}
             onClick={(project) => setCurrentProject(project)}

@@ -11,6 +11,11 @@ const Dashboard = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
 
+  const openForm = (newMode, project) => {
+    setMode(newMode);
+    setCurrentProject(project);
+  }
+
   const closeForm = () => {
     setMode('');
     setCurrentProject(null);
@@ -120,18 +125,20 @@ const Dashboard = () => {
     <div style={{ height: '100%' }}>
       {!mode && (
         <>
-          <TagFilter
-            selectedTags={selectedTags}
-            onFilterUpdate={(tag, isChecked) =>
-              handleTagFilterUpdate(tag, isChecked)
-            }
-          />
+          <div className="flex justify-end align-center">
+            <div>
+              <button onClick={() => openForm('create', null)}>New Post</button>
+            </div>
+            <TagFilter
+              selectedTags={selectedTags}
+              onFilterUpdate={(tag, isChecked) =>
+                handleTagFilterUpdate(tag, isChecked)
+              }
+            />
+          </div>
           <ProjectPreviewPanel
             selectedTags={selectedTags}
-            onClick={(project) => {
-              setCurrentProject(project);
-              setMode('edit');
-            }}
+            onClick={(project) => openForm('edit', project) }
           />
         </>
       )}
