@@ -12,6 +12,8 @@ const Dashboard = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
 
+  // TODO: checkAuthFail to force logout on protected routes failing
+
   const logout = () => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
@@ -32,6 +34,33 @@ const Dashboard = () => {
     setSelectedTags((prev) =>
       isChecked ? [...prev, tag] : prev.filter((t) => t.id !== tag.id)
     );
+  };
+
+  // Handles deleting a post using the API, then updating the global store's projects state to trigger a UI update.
+  const handleDelete = async (project) => {
+    try {
+      const res = await fetch(`http://127.0.0.1:3001/api/posts/${project.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${loginData.token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorMsg = await res.text();
+        // TODO: error message
+        console.error('Error deleting post', res.status, errorMsg);
+        return;
+      }
+
+      const data = await res.json();
+      setProjects((prev) => prev.filter((p) => p.id !== data.id));
+      closeForm();
+    } catch (err) {
+      console.error('Error deleting post', err);
+      // TODO: error message
+      return;
+    }
   };
 
   /**
@@ -172,6 +201,7 @@ const Dashboard = () => {
           onSave={(formData, uploadData) =>
             saveAndCloseForm(formData, uploadData)
           }
+          onDelete={(project) => handleDelete(project)}
         />
       )}
     </div>

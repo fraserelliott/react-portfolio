@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import TagSelector from './TagSelector';
 import ImageUpload from './ImageUpload';
+import ConfirmPopup from './ConfirmPopup';
 
 const BLANK_FORM = {
   title: '',
@@ -11,16 +12,15 @@ const BLANK_FORM = {
   content: '',
 };
 
-const ProjectForm = ({ project, mode, onCancel, onSave }) => {
+const ProjectForm = ({ project, mode, onCancel, onSave, onDelete }) => {
   const [formData, setFormData] = useState(BLANK_FORM);
   const [uploadData, setUploadData] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   useEffect(() => {
     if (project) setFormData({ ...project });
     else setFormData(BLANK_FORM);
   }, [project]);
-
-  // TODO: delete button
 
   const handleTagToggle = (tag, isChecked) => {
     setFormData({
@@ -32,79 +32,97 @@ const ProjectForm = ({ project, mode, onCancel, onSave }) => {
   };
 
   return (
-    <div
-      className="panel flex flex-column vertical-spacing"
-      style={{ height: '90%' }}
-    >
-      <div className="flex horizontal-spacing">
-        <input
-          className="flex-grow"
-          placeholder="Title"
-          value={formData.title}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, title: e.target.value }))
-          }
-        />
-        <label htmlFor="featured">Featured:</label>
-        <input
-          type="checkbox"
-          id="featured"
-          checked={formData.featured}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, featured: e.target.checked }))
-          }
-        />
-      </div>
-      <div className="flex">
-        {/* Show currently selected tags and allow removing them */}
-        <TagDisplay
-          tags={formData.tags}
-          onRemoveTag={(tag) => handleTagToggle(tag, false)}
-        />
-        <TagSelector
-          buttonText="Select Tags"
-          selectedTags={formData.tags}
-          onTagToggle={(tag, isChecked) =>
-            handleTagToggle(tag, isChecked)
-          }
-          onCreateTag={(tag) => handleTagToggle(tag, true)}
-        />
-      </div>
-      <input
-        type="text"
-        placeholder="Repo link"
-        value={formData.repoLink}
-        onChange={(e) =>
-          setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
-        }
-      />
-      {/* Display the final image URL after upload (read-only) */}
-      <input type="text" readOnly value={formData.imageUrl} />
-      <ImageUpload
-        uploadData={uploadData}
-        onFileSelect={(data) => setUploadData(data)}
-      />
-      <textarea
-        className="flex-grow"
-        value={formData.content}
-        placeholder="content"
-        onChange={(e) =>
-          setFormData((prev) => ({ ...prev, content: e.target.value }))
-        }
-      />
-      <div className="flex justify-between">
-        <div />
+    <>
+      <div
+        className="panel flex flex-column vertical-spacing"
+        style={{ height: '90%' }}
+      >
         <div className="flex horizontal-spacing">
-          <button onClick={() => onCancel()}>Cancel</button>
-          <button onClick={() => onSave(formData, uploadData)}>
-            Save & Close
-          </button>
+          <input
+            className="flex-grow"
+            placeholder="Title"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, title: e.target.value }))
+            }
+          />
+          <label htmlFor="featured">Featured:</label>
+          <input
+            type="checkbox"
+            id="featured"
+            checked={formData.featured}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, featured: e.target.checked }))
+            }
+          />
         </div>
-        <div>
-          {mode === 'edit' && <button className="btn-danger">Delete</button>}
+        <div className="flex">
+          {/* Show currently selected tags and allow removing them */}
+          <TagDisplay
+            tags={formData.tags}
+            onRemoveTag={(tag) => handleTagToggle(tag, false)}
+          />
+          <TagSelector
+            buttonText="Select Tags"
+            selectedTags={formData.tags}
+            onTagToggle={(tag, isChecked) => handleTagToggle(tag, isChecked)}
+            onCreateTag={(tag) => handleTagToggle(tag, true)}
+          />
+        </div>
+        <input
+          type="text"
+          placeholder="Repo link"
+          value={formData.repoLink}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, repoLink: e.target.value }))
+          }
+        />
+        {/* Display the final image URL after upload (read-only) */}
+        <input type="text" readOnly value={formData.imageUrl} />
+        <ImageUpload
+          uploadData={uploadData}
+          onFileSelect={(data) => setUploadData(data)}
+        />
+        <textarea
+          className="flex-grow"
+          value={formData.content}
+          placeholder="content"
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, content: e.target.value }))
+          }
+        />
+        <div className="flex justify-between">
+          <div />
+          <div className="flex horizontal-spacing">
+            <button onClick={() => onCancel()}>Cancel</button>
+            <button onClick={() => onSave(formData, uploadData)}>
+              Save & Close
+            </button>
+          </div>
+          <div>
+            {mode === 'edit' && (
+              <button
+                className="btn-danger"
+                onClick={() => setShowDeletePopup(true)}
+              >
+                Delete
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      {showDeletePopup && (
+        <ConfirmPopup
+          text="Are you sure you want to delete this post?"
+          confirmClass="btn-danger"
+          onCancel={() => setShowDeletePopup(false)}
+          onConfirm={() => {
+            setShowDeletePopup(false);
+            onDelete(project);
+          }}
+        />
+      )}
+    </>
   );
 };
 

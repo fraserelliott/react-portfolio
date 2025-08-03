@@ -144,10 +144,10 @@ router.delete("/:id", auth.validateToken, async (req, res) => {
         if (!post)
             return res.status(404).json({ error: "Post not found." });
 
-        post.destroy();
+        await post.destroy();
         res.status(200).json(post);
     } catch (error) {
-        return res.status(500).json({ error: "Error updating post." });
+        return res.status(500).json({ error: "Error deleting post." });
     }
 });
 

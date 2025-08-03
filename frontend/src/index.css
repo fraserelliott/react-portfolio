@@ -6,10 +6,12 @@
   --btn-primary-active: #334155;
   --text-primary: #f1f5f9;
   --text-secondary: #ffffff;
+  --text-muted: #94a3b8;
   --dropdown-bg: #334155;
   --btn-danger: #f87171;
   --btn-danger-hover: #ef4444;
   --btn-danger-active: #dc2626;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.05);
   --font-family-primary: 'Roboto', sans-serif;
   --font-family-secondary: 'Monserrat', sans-serif;
 

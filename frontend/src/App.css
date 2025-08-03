@@ -33,7 +33,7 @@ button:active {
   margin: 1rem auto;
   padding: 1rem;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--glass-border);
 }
 
 .flex {
@@ -103,7 +103,7 @@ input {
   background-color: var(--btn-primary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--glass-border);
   padding: 0.1rem;
 }
 
@@ -111,7 +111,7 @@ textarea {
   background-color: var(--btn-primary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--glass-border);
   resize: none;
   padding: 0.1rem;
 }
