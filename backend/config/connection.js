@@ -10,7 +10,9 @@ function createSequelizeInstance() {
   }
 
   const sequelize = process.env.DATABASE_URL
-    ? new Sequelize(process.env.DATABASE_URL)
+    ? new Sequelize(process.env.DATABASE_URL, {
+      logging: false
+    })
     : new Sequelize(
         process.env.DB_DATABASE,
         process.env.DB_USERNAME,
