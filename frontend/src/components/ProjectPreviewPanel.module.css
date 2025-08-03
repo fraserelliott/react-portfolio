@@ -9,15 +9,14 @@
   flex-direction: column;
   background-color: var(--bg-secondary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
-  width: 300px;
-  height: 400px;
-  margin: 20px;
-  padding: 10px;
-  border-radius: 10px;
+  width: 18.75em;
+  height: 25em;
+  margin: 1em;
+  padding: 0.5em;
+  border-radius: 0.5em;
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow: hidden;
 }
 
 .project:hover {
@@ -32,18 +31,46 @@
   flex-grow: 1;
 }
 
+img {
+  height: 9.375em;
+}
+
 .project > * {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5em;
 }
 
 .projectMain > * {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5em;
 }
 
 .projectContent {
   flex-grow: 1;
+  height: 8.25em;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 
 .centered {
   text-align: center;
+}
+
+.githubUrl {
+  flex-shrink: 0;
+}
+
+.tapHint {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: auto;
+}
+
+@media (hover: hover) {
+  .tapHint {
+    display: none;
+  }
+
+  .projectContent {
+    height: 9.5em;
+  }
 }

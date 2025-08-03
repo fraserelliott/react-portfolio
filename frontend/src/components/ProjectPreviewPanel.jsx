@@ -62,7 +62,7 @@ const ProjectPreview = ({ project, onClick }) => {
         )}
         {project.imageUrl && (
         <div className={styles.centered}>
-          <img src={project.imageUrl} height="150" alt={project.title} />
+          <img src={project.imageUrl} alt={project.title} />
         </div>
         )}
         <p
@@ -71,7 +71,8 @@ const ProjectPreview = ({ project, onClick }) => {
             __html: DOMPurify.sanitize(project.content),
           }}
         ></p>
-        <a href={project.repoLink} target="_blank">
+        <span className={styles.tapHint}>Tap to view more</span>
+        <a href={project.repoLink} className={styles.githubUrl} target="_blank">
           <h2 className={styles.centered}>GitHub Link</h2>
         </a>
       </div>
