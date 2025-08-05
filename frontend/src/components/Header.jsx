@@ -1,11 +1,15 @@
 import Navbar from './Navbar';
+import OpenSourceBadge from './OpenSourceBadge';
 
 const Header = () => {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Fraser Elliott's Portfolio</h1>
-      <Navbar />
-    </div>
+    <>
+      <header style={styles.container}>
+        <h1 style={styles.heading}>Fraser Elliott's Portfolio</h1>
+        <Navbar />
+      </header>
+      <OpenSourceBadge />
+    </>
   );
 };
 

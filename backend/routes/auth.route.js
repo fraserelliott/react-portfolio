@@ -13,7 +13,7 @@ userSchema.add("password", new StringField().required());
 router.post("/", inputValidation.validate(userSchema), async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ where: { email: email.trim().toLowercase() }});
+        const user = await User.findOne({ where: { email: email.trim().toLowerCase() }});
         if (!user || !(await bcrypt.compare(password, user.pwhash)))
             return res.status(401).json({ error: "Invalid username or password. "});
 
@@ -27,7 +27,7 @@ router.post("/", inputValidation.validate(userSchema), async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: "Error adding post" });
+        return res.status(500).json({ error: "Error logging in" });
     }
 });
 
