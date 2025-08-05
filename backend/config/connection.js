@@ -1,41 +1,41 @@
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
-}
-
 const Sequelize = require("sequelize");
 
 function createSequelizeInstance() {
-  if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
-  }
-
+  console.log(process.env.DATABASE_URL);
   const sequelize = process.env.DATABASE_URL
     ? new Sequelize(process.env.DATABASE_URL, {
-      logging: false
+      dialect: 'postgres',
+      protocol: 'postgres',
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false, // Use false only for local dev
+        },
+      },
     })
     : new Sequelize(
-        process.env.DB_DATABASE,
-        process.env.DB_USERNAME,
-        process.env.DB_PASSWORD,
-        {
-          host: process.env.DB_HOST,
-          dialect: process.env.DB_DIALECT,
-          port: process.env.DB_PORT,
-          logging: process.env.NODE_ENV !== "production"
-        }
-      );
+      process.env.DB_DATABASE,
+      process.env.DB_USERNAME,
+      process.env.DB_PASSWORD,
+      {
+        host: process.env.DB_HOST,
+        dialect: process.env.DB_DIALECT,
+        port: process.env.DB_PORT,
+        logging: process.env.NODE_ENV !== "production"
+      }
+    );
 
   return sequelize;
 }
 
 async function testConnection() {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Connection has been established successfully.');
-    } catch (error) {
-        console.error('❌ Unable to connect to the database:', error);
-        process.exit(1);
-    }
+  try {
+    await sequelize.authenticate();
+    console.log('✅ Connection has been established successfully.');
+  } catch (error) {
+    console.error('❌ Unable to connect to the database:', error);
+    process.exit(1);
+  }
 }
 
 const sequelize = createSequelizeInstance();

@@ -1,11 +1,14 @@
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
+console.log(process.env);
+
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
 console.log("Working directory:", process.cwd());
-console.log("Env vars:", {
-  DATABASE_URL: process.env.DATABASE_URL,
-});
 
 const { sequelize, testConnection } = require("./config/connection");
 testConnection(); // Exits loudly if there's an issue in the config

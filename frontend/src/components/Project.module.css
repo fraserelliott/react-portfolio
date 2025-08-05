@@ -14,8 +14,16 @@
   padding: 10px;
 }
 
+.projectContent > * {
+  margin-bottom: 0.5em;
+}
+
+.projectContent ul {
+  padding-left: 1.5em;
+}
+
 .project > * {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5em;
 }
 
 .centered {
