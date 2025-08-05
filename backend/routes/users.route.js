@@ -22,7 +22,7 @@ router.post("/", auth.validateToken, inputValidation.validate(userSchema), async
         const saltRounds = 10;
         const { email, name, password } = req.body;
         const pwhash = await bcrypt.hash(password, saltRounds);
-        const user = await User.create({ email, name, pwhash });
+        const user = await User.create({ email: email.trim().toLowerCase(), name, pwhash });
 
         res.status(201).json({
             id: user.id,

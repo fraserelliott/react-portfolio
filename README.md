@@ -1,10 +1,9 @@
 # Portfolio CMS
 
-A lightweight, personal content management system built with **Node.js**, **Express**, and **MySQL**, designed to manage and showcase projects on a portfolio website. This CMS supports adding, editing, deleting, and tagging projects via a private dashboard, with all content dynamically displayed on the frontend.
+A lightweight, personal content management system built with **Node.js**, **Express**, **React** and **PostgreSQL**, designed to manage and showcase projects on a portfolio website. This CMS supports adding, editing, deleting, and tagging projects via a private dashboard, with all content dynamically displayed on the frontend.
 
 ## ▶️ Demo
 
-https://www.youtube.com/watch?v=mxE_Q6YD1bI
 
 ## ✨ Features
 
@@ -12,16 +11,15 @@ https://www.youtube.com/watch?v=mxE_Q6YD1bI
 - Upload images via a custom Cloudinary integration
 - Tag-based filtering for frontend project discovery
 - Responsive design, mobile-friendly layout
-- Custom project pages at `/project/:id`
 - Authentication using JWT
 - Sequelize ORM with auto schema sync
 
 ## 🛠️ Tech Stack
 
 - **Backend**: Node.js, Express
-- **Database**: MySQL (via Sequelize)
-- **Frontend**: HTML/CSS, vanilla JS
-- **Deployment**: Railway
+- **Database**: PostgreSQL (via Sequelize)
+- **Frontend**: React
+- **Deployment**: Render
 - **Image Hosting**: Cloudinary
 
 ## 🎨 Frontend Methodology
@@ -37,14 +35,20 @@ Rather than relying on frameworks like Bootstrap, this project uses reusable com
 ```
 project-root/
 │
-├── config/               # Sequelize connection setup
-├── models/               # Sequelize models (Post, Tag, etc.)
-├── public/               # Static frontend assets and reusable scripts (modals, toasts, etc.)
-├── routes/               # Express API routes
-├── scripts/              # Scripts used in npm (alter-schema)
-├── static-pages/         # Static fallback HTML pages (404, project view)
-├── .env                  # Environment variables (not committed)
-├── server.js             # Entry point for the Express app
+├── backend/               # Backend server logic and configuration
+│   ├── config/            # Static configuration files (e.g., generated config.json)
+│   ├── middleware/        # Middleware modules used in route handling
+│   ├── models/            # Data models and structures
+│   ├── routes/            # API route definitions
+│   ├── scripts/           # CLI tools such as altering database schema
+│   └── static-pages/      # Static HTML files served by the backend
+│
+├── frontend/              # React frontend
+│   ├── public/            # Static assets exposed at the root (e.g., index.html, favicon)
+│   └── src/               # Application source code
+│       ├── assets/        # Images and other static resources
+│       ├── components/    # Reusable React components
+│       └── pages/         # Page-level components
 └── README.md
 ```
 

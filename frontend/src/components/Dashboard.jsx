@@ -40,7 +40,7 @@ const Dashboard = () => {
   // Handles deleting a post using the API, then updating the global store's projects state to trigger a UI update.
   const handleDelete = async (project) => {
     try {
-      const res = await fetch(`http://127.0.0.1:3001/api/posts/${project.id}`, {
+      const res = await fetch(`/api/posts/${project.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${loginData.token}`,
@@ -146,7 +146,7 @@ const Dashboard = () => {
     }
 
     // Decide whether to create a new post or update an existing one based on the mode.
-    const url = `http://127.0.0.1:3001/api/posts${
+    const url = `/api/posts${
       mode === 'edit' ? '/' + currentProject.id : ''
     }`;
     try {
