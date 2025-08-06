@@ -31,7 +31,7 @@ A lightweight, personal content management system built with **Node.js**, **Expr
 
 ## 🎨 Frontend Methodology
 
-Rather than relying on frameworks, this project uses reusable components I created with React. This approach:
+Rather than relying on component libraries, this project uses reusable components I built with React. This approach:
 - Offers full control over styling and behaviour
 - Allows for immediate changes to styles without needing to track down framework variables
 - Ensures consistency across elements (modals, toasts, form inputs, etc.)
