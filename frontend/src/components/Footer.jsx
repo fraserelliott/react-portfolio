@@ -16,11 +16,17 @@ const Footer = () => {
       &copy; Fraser Elliott 2025 |{' '}
       {links.map((link) => (
         <span key={link.name}>
-          <a href={link.url}>{link.name}</a>
+          <a href={link.url} target="_blank">
+            {link.name}
+          </a>
           {' | '}
         </span>
       ))}
-      <span role="link" onClick={() => setCurrentPage('dashboard')} style={{cursor: 'pointer'}}>
+      <span
+        role="link"
+        onClick={() => setCurrentPage('dashboard')}
+        style={{ cursor: 'pointer' }}
+      >
         🔧
       </span>
     </footer>
