@@ -158,15 +158,15 @@ Issues and PRs are welcome! Please open an issue to suggest features or report b
 
 ## 💡 Feature Roadmap
 
-- Search functionality
-- Using react-router for a better simulated multiple-page experience
-- Implement expiration of JWTs
-- Style and about section editable in dashboard.
+- Search functionality to find projects
+- Use `react-router` for a better simulated multiple-page experience
+- Implement expiration of JWTs for added security
+- Make site style and About section editable via the dashboard
 - Contact form with optional email integration
 - Improved media handling (e.g., video support)
 - Markdown to HTML conversion clientside
-- Multiple images using merge tags e.g. {{img:id-1}}
-- Server-side generation for better indexing
+- Multiple images using merge tags (e.g. `{{img:id-1}}`)
+- Server-side generation for indexing in search engines
 
 ---
 
