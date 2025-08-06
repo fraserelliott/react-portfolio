@@ -16,7 +16,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    minWidth: '100vw',
+    width: '100%',
     height: '100%',
   },
   selected: {

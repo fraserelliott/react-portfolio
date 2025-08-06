@@ -70,7 +70,7 @@ function App() {
         {currentPage === 'projects' && <ProjectsPage />}
         {currentPage === 'dashboard' && <DashboardPage />}
       </Layout>
-      <div style={{ position: 'absolute', bottom: '3rem', right: '1rem' }}>
+      <div style={{ position: 'fixed', bottom: '3rem', right: '1rem' }}>
         <ToastMessageDisplay />
       </div>
     </>
