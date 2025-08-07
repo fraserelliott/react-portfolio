@@ -64,13 +64,3 @@ img {
   text-align: center;
   margin-top: auto;
 }
-
-@media (hover: hover) {
-  .tapHint {
-    display: none;
-  }
-
-  .projectContent {
-    height: 9.5em;
-  }
-}

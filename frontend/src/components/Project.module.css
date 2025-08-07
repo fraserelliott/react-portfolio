@@ -15,8 +15,17 @@
   padding: 10px;
 }
 
+.projectContent {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
 .projectContent > * {
   margin-bottom: 0.5em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .projectContent ul {

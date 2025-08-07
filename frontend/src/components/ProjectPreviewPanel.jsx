@@ -39,31 +39,32 @@ const ProjectPreviewPanel = (props) => {
         <ProjectPreview
           key={project.id}
           project={project}
-          onClick={() => handleClick(project)}
+          handleClick={() => handleClick(project)}
         />
       ))}
     </div>
   );
 };
 
-const ProjectPreview = ({ project, onClick }) => {
+const ProjectPreview = ({ project, handleClick }) => {
   return (
-    <div
-      className={styles.project}
-    >
-      <div className={styles.projectMain} onClick={() => {
-        if (onClick) onClick();
-      }}>
+    <div className={styles.project}>
+      <div
+        className={styles.projectMain}
+        onClick={() => {
+          if (handleClick) handleClick();
+        }}
+      >
         <h1 className={styles.centered}>{project.title}</h1>
         {project.tags.length > 0 && (
-        <h2 className={styles.centered}>
-          {project.tags.map((tag) => tag.name).join(', ')}
-        </h2>
+          <h2 className={styles.centered}>
+            {project.tags.map((tag) => tag.name).join(', ')}
+          </h2>
         )}
         {project.imageUrl && (
-        <div className={styles.centered}>
-          <img src={project.imageUrl} alt={project.title} />
-        </div>
+          <div className={styles.centered}>
+            <img src={project.imageUrl} alt={project.title} />
+          </div>
         )}
         <p
           className={styles.projectContent}
@@ -72,10 +73,10 @@ const ProjectPreview = ({ project, onClick }) => {
           }}
         ></p>
         <span className={styles.tapHint}>Tap to view more</span>
-        <a href={project.repoLink} className={styles.githubUrl} target="_blank">
-          <h2 className={styles.centered}>GitHub Link</h2>
-        </a>
       </div>
+      <a href={project.repoLink} className={styles.githubUrl} target="_blank">
+        <h2 className={styles.centered}>GitHub Link</h2>
+      </a>
     </div>
   );
 };
