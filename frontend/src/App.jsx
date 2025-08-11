@@ -1,36 +1,32 @@
-import { useGlobalStore, useToast } from './components/GlobalStoreProvider';
-import { useEffect } from 'react';
+import {useGlobalStore, useToast} from './components/GlobalStoreProvider';
+import {useEffect} from 'react';
 import './App.css';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import DashboardPage from './pages/DashboardPage';
+import PageNotFound from './pages/PageNotFound';
 import ToastMessageDisplay from './components/ToastMessageDisplay';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import api from './api.jsx';
+import Header from './components/Header';
+import Footer from "./components/Footer";
+import OpenSourceBadge from "./components/OpenSourceBadge";
 
 function App() {
-  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
   const [loginData, setLoginData] = useGlobalStore('loginData');
   const [projects, setProjects] = useGlobalStore('projects');
   const [tags, setTags] = useGlobalStore('tags');
-  const { addToastMessage } = useToast();
+  const {addToastMessage} = useToast();
 
   // Load data from API and session storage on mount
   useEffect(() => {
     loadProjects();
     loadTags();
 
-    const savedPage = sessionStorage.getItem('page');
-    if (savedPage) setCurrentPage(savedPage);
-
     const loginData = sessionStorage.getItem('loginData');
     if (loginData) setLoginData(JSON.parse(loginData));
   }, []);
-
-  // Save page to sessionStorage when it changes
-  useEffect(() => {
-    sessionStorage.setItem('page', currentPage);
-  }, [currentPage]);
 
   const loadProjects = async () => {
     try {
@@ -52,14 +48,23 @@ function App() {
 
   return (
     <>
-      <Layout>
-        {currentPage === 'home' && <HomePage />}
-        {currentPage === 'projects' && <ProjectsPage />}
-        {currentPage === 'dashboard' && <DashboardPage />}
-      </Layout>
-      <div style={{ position: 'fixed', bottom: '3rem', right: '1rem' }}>
-        <ToastMessageDisplay />
+      <BrowserRouter>
+        <Header/>
+        <OpenSourceBadge/>
+
+        <Routes>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/projects" element={<ProjectsPage/>}/>
+          <Route path="/dashboard" element={<DashboardPage/>}/>
+          <Route path="*" element={<PageNotFound/>} />
+        </Routes>
+
+        <Footer/>
+      </BrowserRouter>
+      <div style={{position: 'fixed', bottom: '3rem', right: '1rem'}}>
+        <ToastMessageDisplay/>
       </div>
+
     </>
   );
 }

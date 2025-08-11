@@ -20,15 +20,6 @@ if (process.env.NODE_ENV !== "production") {
 const routes = require("./routes/index.route");
 app.use("/api", routes);
 
-// TODO: Page for individual project viewing, serve index still but page will need to check href.location
-// app.get("/project/:id", (req, res) => {
-//     res.sendFile(path.join(__dirname, "static-pages", "project.html"));
-// });
-
-// Custom 404 page
-app.all(/.*/, (req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "static-pages", "404.html"));
-});
 
 // Error logging
 app.use((err, req, res, next) => {

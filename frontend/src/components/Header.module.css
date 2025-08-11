@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--bg-secondary);
+    align-items: center;
+    cursor: pointer;
+}
+
+.heading {
+    margin-left: 0.5rem;
+}
+
+.navList {
+    display: flex;
+    list-style: none;
+}
+
+.navItem {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.navItem:hover {
+    background-color: var(--btn-primary-active);
+    cursor: pointer;
+}
+
+.selected {
+    background-color: var(--btn-primary-active);
+}

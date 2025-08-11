@@ -1,34 +1,50 @@
-import Navbar from './Navbar';
-import OpenSourceBadge from './OpenSourceBadge';
-import { useGlobalStore } from './GlobalStoreProvider';
+import {useGlobalStore} from './GlobalStoreProvider';
+import styles from './Header.module.css';
+import {NavLink} from "react-router-dom";
 
 const Header = () => {
-  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
-
   return (
     <>
-      <header style={styles.container}>
-        <h1 style={styles.heading} onClick={() => setCurrentPage('home')}>
-          Fraser Elliott's Portfolio
-        </h1>
-        <Navbar />
+      <header className={styles.container}>
+        <NavLink to="/">
+          <h1 className={styles.heading}>Fraser Elliott's Portfolio</h1>
+        </NavLink>
+        <Navbar/>
       </header>
-      <OpenSourceBadge />
     </>
   );
 };
 
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    backgroundColor: 'var(--bg-secondary)',
-    alignItems: 'center',
-    cursor: 'pointer',
-  },
-  heading: {
-    marginLeft: '0.5rem',
-  },
+const pages = [
+  {name: "Home", to: "/"},
+  {name: "Projects", to: "/projects"},
+];
+
+const Navbar = () => {
+  const [loginData, setLoginData] = useGlobalStore('loginData');
+
+  const renderPageLink = (page) => {
+    return (
+      <li
+        key={page.name}>
+        <NavLink
+          to={page.to}
+          className={({isActive}) =>
+            isActive ? `${styles.navItem} ${styles.selected}` : styles.navItem
+          }
+        >
+          {page.name}
+        </NavLink>
+      </li>
+    );
+  };
+
+  return (
+    <ul className={styles.navList}>
+      {pages.map((page) => renderPageLink(page))}
+      {loginData && renderPageLink({name: 'Dashboard', to: '/dashboard'})}
+    </ul>
+  )
 };
 
 export default Header;
