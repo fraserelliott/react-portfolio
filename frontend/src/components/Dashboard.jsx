@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useGlobalStore, useToast } from '../components/GlobalStoreProvider';
+import { useGlobalStore, useToast } from './GlobalStoreProvider.jsx';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
 import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
+import api from '../api.jsx';
 
 const Dashboard = () => {
   const [projects, setProjects] = useGlobalStore('projects');
@@ -40,26 +41,12 @@ const Dashboard = () => {
   // Handles deleting a post using the API, then updating the global store's projects state to trigger a UI update.
   const handleDelete = async (project) => {
     try {
-      const res = await fetch(`/api/posts/${project.id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${loginData.token}`,
-        },
-      });
-
-      if (!res.ok) {
-        checkAuthFail(res);
-        const { error } = await res.json();
-        addToastMessage(error, 'error');
-        return;
-      }
-
-      const data = await res.json();
-      setProjects((prev) => prev.filter((p) => p.id !== data.id));
+      const res = await api.delete(`/api/posts/${project.id}`);
+      setProjects((prev) => prev.filter((p) => p.id !== res.data.id));
       closeForm();
       addToastMessage('Post successfully deleted.', 'success');
     } catch (err) {
-      addToastMessage(err.message || 'Error deleting post.', 'error');
+      handleApiError(err, "Error deleting post.");
       return;
     }
   };
@@ -89,26 +76,10 @@ const Dashboard = () => {
     for (const tag of formData.tags) {
       if (!tag.id) {
         try {
-          const res = await fetch('/api/tags', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${loginData.token}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(tag),
-          });
-
-          if (!res.ok) {
-            checkAuthFail(res);
-            const { error } = await res.json();
-            addToastMessage(error, 'error');
-            return;
-          }
-
-          const data = await res.json();
-          tagIds.push(data.id);
+          const res = await api.post('/api/tags', tag);
+          tagIds.push(res.data.id);
         } catch (err) {
-          addToastMessage(err.message || 'Error creating tag.', 'error');
+          handleApiError(err, "Error creating tag.");
           return;
         }
       } else {
@@ -122,52 +93,21 @@ const Dashboard = () => {
       try {
         const fileData = new FormData();
         fileData.append('image', uploadData);
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${loginData.token}`,
-          },
-          body: fileData,
-        });
-
-        if (!res.ok) {
-          checkAuthFail(res);
-          const { error } = await res.json();
-          addToastMessage(error, 'error');
-          return;
-        }
-
-        const data = await res.json();
-        newData.imageUrl = data.url;
+        const res = await api.post('/api/upload', fileData);
+        newData.imageUrl = res.data.url;
       } catch (err) {
-        addToastMessage(err.message || 'Error uploading image.', 'error');
+        handleApiError(err, "Error uploading image");
         return;
       }
     }
 
     // Decide whether to create a new post or update an existing one based on the mode.
-    const url = `/api/posts${
-      mode === 'edit' ? '/' + currentProject.id : ''
-    }`;
     try {
-      const res = await fetch(url, {
-        method: mode === 'edit' ? 'PUT' : 'POST',
-        headers: {
-          Authorization: `Bearer ${loginData.token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newData),
-      });
+      const res = mode === 'edit'
+          ? await api.put(`/api/posts/${currentProject.id}`, newData)
+          : await api.post('/api/posts', newData);
 
-      if (!res.ok) {
-        checkAuthFail(res);
-        const { error } = await res.json();
-        addToastMessage(error, 'error');
-        return;
-      }
-
-      const data = await res.json();
-
+      const data = res.data;
       // After saving, update the project list in state—replacing or appending depending on mode.
       setProjects((prev) => {
         if (mode === 'edit')
@@ -175,10 +115,7 @@ const Dashboard = () => {
         else return [...prev, data];
       });
     } catch (err) {
-      addToastMessage(
-        err.message || 'Error updating or creating post',
-        'error'
-      );
+      handleApiError(err, "Error updating or creating post.");
       return;
     }
 
@@ -189,9 +126,8 @@ const Dashboard = () => {
     closeForm();
   };
 
-  // Force logout on API authorisation error, used in every API call that requires auth.
-  const checkAuthFail = (res) => {
-    if (res.status == 401) logout(true);
+  const handleApiError = (err, fallbackMsg) => {
+    addToastMessage(err.response?.data?.error || err.message || fallbackMsg, 'error');
   };
 
   return (

@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import DashboardPage from './pages/DashboardPage';
 import ToastMessageDisplay from './components/ToastMessageDisplay';
+import api from './api.jsx';
 
 function App() {
   const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
@@ -33,15 +34,8 @@ function App() {
 
   const loadProjects = async () => {
     try {
-      const res = await fetch('/api/posts');
-      if (!res.ok) {
-        const { error} = await res.json();
-        addToastMessage(errorMsg || 'Error loading projects.', 'error');
-        return;
-      }
-
-      const data = await res.json();
-      setProjects(data);
+      const res = await api.get('/api/posts');
+      setProjects(res.data);
     } catch (err) {
       addToastMessage(err.message || 'Failed to load projects.', 'error');
     }
@@ -49,15 +43,8 @@ function App() {
 
   const loadTags = async () => {
     try {
-      const res = await fetch('/api/tags');
-      if (!res.ok) {
-        const { error} = await res.json();
-        addToastMessage(errorMsg || 'Error loading tags.', 'error');
-        return;
-      }
-
-      const data = await res.json();
-      setTags(data);
+      const res = await api.get('/api/tags');
+      setTags(res.data);
     } catch (err) {
       addToastMessage(err.message || 'Failed to load tags.', 'error');
     }

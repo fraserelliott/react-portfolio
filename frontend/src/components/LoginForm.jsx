@@ -1,29 +1,18 @@
 import { useState } from 'react';
 import { useGlobalStore, useToast } from './GlobalStoreProvider';
+import api from '../api.jsx';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginData, setLoginData] = useGlobalStore('loginData');
-  const { addToastMessage } = useToast();
+  const { addToastMessage } = useToast()
 
   const attemptLogin = async () => {
     try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        const { error} = await res.json();
-        addToastMessage(error, 'error');
-        throw new Error('Login request failed');
-      }
-
-      const data = await res.json();
-      sessionStorage.setItem('loginData', JSON.stringify(data));
-      setLoginData(data);
+      const res = await api.post('/api/auth', { email, password });
+      sessionStorage.setItem('loginData', JSON.stringify(res.data));
+      setLoginData(res.data);
     } catch (err) {
       addToastMessage(err.message || 'Error logging in.', 'error');
     }
