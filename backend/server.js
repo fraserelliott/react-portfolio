@@ -20,6 +20,9 @@ if (process.env.NODE_ENV !== "production") {
 const routes = require("./routes/index.route");
 app.use("/api", routes);
 
+app.use((req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
+});
 
 // Error logging
 app.use((err, req, res, next) => {
