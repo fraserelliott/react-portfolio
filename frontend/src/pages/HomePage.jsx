@@ -1,29 +1,25 @@
 import fraser from '../assets/fraser.jpg';
 import ProjectPreviewPanel from '../components/ProjectPreviewPanel';
-import { useGlobalStore } from '../components/GlobalStoreProvider';
+import {useNavigate} from 'react-router-dom';
 
 const HomePage = () => {
-  const [currentProject, setCurrentProject] = useGlobalStore('currentProject');
-  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
+  const navigate = useNavigate();
 
-  const handlePreviewClick = (project) => {
-    setCurrentPage('projects');
-    setCurrentProject(project);
-  };
 
   return (
     <>
-      <AboutSection />
-      <h1 style={{ textAlign: 'center', margin: '1rem' }}>Featured Projects</h1>
+      <AboutSection/>
+      <h1 style={{textAlign: 'center', margin: '1rem'}}>Featured Projects</h1>
       <ProjectPreviewPanel
         featured
-        onClick={(project) => handlePreviewClick(project)}
+        onClick={(project) => {
+          navigate(`/project?id=${project.id}`);
+        }}
       />
     </>
   );
 };
 
-// TODO: update text with intro from CV
 const AboutSection = () => {
   return (
     <section className="panel flex flex-row-desktop align-center w-l my-2">
@@ -37,8 +33,8 @@ const AboutSection = () => {
           beginning with Java and later exploring C#, HTML, CSS, and JavaScript.
           I quickly found ways to apply my skills to help friends and online
           gaming communities, reinforcing my desire to create software and
-          websites that are both useful and meaningful.<br /><br />
-          
+          websites that are both useful and meaningful.<br/><br/>
+
           After university, life
           circumstances led me down a different career path. Even so, I
           continued programming as a hobby. Over time, I built confidence and
@@ -51,7 +47,7 @@ const AboutSection = () => {
         </p>
       </div>
       <div>
-        <img src={fraser} height="150" />
+        <img src={fraser} height="150"/>
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import './App.css';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
+import ProjectPage from './pages/ProjectPage';
 import DashboardPage from './pages/DashboardPage';
 import PageNotFound from './pages/PageNotFound';
 import ToastMessageDisplay from './components/ToastMessageDisplay';
@@ -55,8 +56,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/projects" element={<ProjectsPage/>}/>
+          <Route path="/project" element={<ProjectPage/>}/>
           <Route path="/dashboard" element={<DashboardPage/>}/>
-          <Route path="*" element={<PageNotFound/>} />
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
 
         <Footer/>

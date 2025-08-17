@@ -1,4 +1,4 @@
-import { useGlobalStore } from './GlobalStoreProvider';
+import { useNavigate} from "react-router-dom";
 
 const links = [
   { name: 'GitHub', url: 'https://github.com/fraserelliott' },
@@ -9,7 +9,7 @@ const links = [
 ];
 
 const Footer = () => {
-  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
+  const navigate = useNavigate();
 
   return (
     <footer style={styles.footer}>
@@ -24,7 +24,7 @@ const Footer = () => {
       ))}
       <span
         role="link"
-        onClick={() => setCurrentPage('dashboard')}
+        onClick={() => navigate('/dashboard')}
         style={{ cursor: 'pointer' }}
       >
         🔧
