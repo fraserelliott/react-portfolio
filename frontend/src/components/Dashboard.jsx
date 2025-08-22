@@ -1,28 +1,36 @@
-import {useState} from 'react';
-import {useGlobalStore, useToast} from './GlobalStoreProvider.jsx';
+import {useEffect, useState} from 'react';
+import {useToast} from '../contexts/ToastContext.jsx';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
 import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
 import api from '../api.jsx';
 import {useProjects} from '../contexts/ProjectsContext.jsx';
 import {useNavigate} from 'react-router-dom';
+import {useSession} from '../contexts/SessionContext.jsx';
+import project from './Project.jsx';
 
 const Dashboard = () => {
-  const [loginData, setLoginData] = useGlobalStore('loginData');
+  const {token, logout} = useSession();
   const [mode, setMode] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
   const {addToastMessage} = useToast();
-  const {projects, loading, error} = useProjects();
+  const {addProjectAsync, updateProjectAsync, deleteProjectAsync, addTagAsync} = useProjects();
   const navigate = useNavigate();
 
-  const logout = (forced) => {
-    sessionStorage.removeItem('loginData');
-    setLoginData(null);
-    navigate('/');
-    if (forced) addToastMessage("You've been logged out.", 'error');
-    else addToastMessage("You've been logged out.", 'success');
-  };
+  // TODO: force logout in ApiContext on auth fail
+  // const logout = (forced) => {
+  //   sessionStorage.removeItem('loginData');
+  //   setLoginData(null);
+  //   navigate('/');
+  //   if (forced) addToastMessage("You've been logged out.", 'error');
+  //   else addToastMessage("You've been logged out.", 'success');
+  // };
+
+  useEffect(() => {
+    if (!token)
+      navigate('/');
+  }, [navigate, token]);
 
   const openForm = (newMode, project) => {
     setMode(newMode);
@@ -42,15 +50,8 @@ const Dashboard = () => {
 
   // Handles deleting a post using the API, then updating the global store's projects state to trigger a UI update.
   const handleDelete = async (project) => {
-    try {
-      const res = await api.delete(`/api/posts/${project.id}`);
-      setProjects((prev) => prev.filter((p) => p.id !== res.data.id));
-      closeForm();
-      addToastMessage('Post successfully deleted.', 'success');
-    } catch (err) {
-      handleApiError(err, "Error deleting post.");
-      return;
-    }
+    await deleteProjectAsync(project.id);
+    closeForm();
   };
 
   /**
@@ -62,40 +63,33 @@ const Dashboard = () => {
    * - Updating the project list and closing the form
    */
   const saveAndCloseForm = async (formData, uploadData) => {
-    let newData = {...formData};
-
-    if (!newData.title || !newData.repoLink || !newData.content) {
-      addToastMessage(
-        'Title, repo link and content are mandatory fields.',
-        'error'
-      );
+    if (!formData?.title || !formData?.repoLink || !formData?.content) {
+      addToastMessage("Title, repo link and content are mandatory fields.", "error");
       return;
     }
 
+    // Keep current tag flow, just guard it a bit
+    const submittedTags = Array.isArray(formData.tags) ? formData.tags : [];
     const tagIds = [];
-    // Loop through submitted tags. Create new ones via the API if they don't have an ID yet, and collect all tag IDs into an array for the final post payload.
 
-    for (const tag of formData.tags) {
-      if (!tag.id) {
-        try {
-          const res = await api.post('/api/tags', tag);
-          tagIds.push(res.data.id);
-        } catch (err) {
-          handleApiError(err, "Error creating tag.");
-          return;
-        }
+    for (const tag of submittedTags) {
+      if (!tag?.id) {
+        const created = await addTagAsync(tag); // returns newTag | null via runApi
+        if (!created) return; // toast already shown
+        tagIds.push(created.id);
       } else {
         tagIds.push(tag.id);
       }
     }
-    newData.tags = tagIds;
 
-    // If an image was provided, upload it and attach the resulting URL to the post data.
+    const newData = {...formData, tags: tagIds};
+
+    // Leave image upload logic as-is for now
     if (uploadData) {
       try {
         const fileData = new FormData();
-        fileData.append('image', uploadData);
-        const res = await api.post('/api/upload', fileData);
+        fileData.append("image", uploadData);
+        const res = await api.post("/api/upload", fileData);
         newData.imageUrl = res.data.url;
       } catch (err) {
         handleApiError(err, "Error uploading image");
@@ -103,28 +97,18 @@ const Dashboard = () => {
       }
     }
 
-    // Decide whether to create a new post or update an existing one based on the mode.
-    try {
-      const res = mode === 'edit'
-        ? await api.put(`/api/posts/${currentProject.id}`, newData)
-        : await api.post('/api/posts', newData);
+    // Still call centralized helpers (no state drift)
+    const ok =
+      mode === "edit"
+        ? await updateProjectAsync({...newData, id: currentProject.id})
+        : await addProjectAsync(newData);
 
-      const data = res.data;
-      // After saving, update the project list in state—replacing or appending depending on mode.
-      setProjects((prev) => {
-        if (mode === 'edit')
-          return prev.map((p) => (p.id === data.id ? data : p));
-        else return [...prev, data];
-      });
-    } catch (err) {
-      handleApiError(err, "Error updating or creating post.");
-      return;
-    }
+    if (!ok) return;
 
-    if (mode === 'edit')
-      addToastMessage('Post successfully updated.', 'success');
-    else addToastMessage('Post successfully created.', 'success');
-
+    addToastMessage(
+      mode === "edit" ? "Post successfully updated" : "Post successfully created",
+      "success"
+    );
     closeForm();
   };
 

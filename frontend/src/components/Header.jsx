@@ -1,6 +1,6 @@
-import {useGlobalStore} from './GlobalStoreProvider';
 import styles from './Header.module.css';
 import {NavLink} from "react-router-dom";
+import {useSession} from '../contexts/SessionContext.jsx';
 
 const Header = () => {
   return (
@@ -21,7 +21,7 @@ const pages = [
 ];
 
 const Navbar = () => {
-  const [loginData, setLoginData] = useGlobalStore('loginData');
+  const {token} = useSession();
 
   const renderPageLink = (page) => {
     return (
@@ -42,7 +42,7 @@ const Navbar = () => {
   return (
     <ul className={styles.navList}>
       {pages.map((page) => renderPageLink(page))}
-      {loginData && renderPageLink({name: 'Dashboard', to: '/dashboard'})}
+      {token && renderPageLink({name: 'Dashboard', to: '/dashboard'})}
     </ul>
   )
 };

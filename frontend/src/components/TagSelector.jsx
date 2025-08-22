@@ -1,8 +1,8 @@
-import { useGlobalStore } from './GlobalStoreProvider';
-import { useState, useRef, useEffect } from 'react';
+import {useState, useRef, useEffect} from 'react';
+import {useProjects} from '../contexts/ProjectsContext.jsx';
 
 const TagSelector = (props) => {
-  const [tags, setTags] = useGlobalStore('tags');
+  const {tags} = useProjects();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -70,7 +70,7 @@ const TagSelector = (props) => {
               style={styles.newTag}
               onClick={() => {
                 if (props.onCreateTag)
-                  props.onCreateTag({ name: searchTerm.trim() });
+                  props.onCreateTag({name: searchTerm.trim()});
               }}
             >
               {searchTerm.trim()} (create)
@@ -108,7 +108,7 @@ const TagSelector = (props) => {
   );
 };
 
-const TagSelectorItem = ({ tag, selectedTags, onChecked }) => {
+const TagSelectorItem = ({tag, selectedTags, onChecked}) => {
   return (
     <li>
       <input
@@ -148,14 +148,14 @@ const styles = {
     whiteSpace: 'nowrap',
     zIndex: '100',
   },
-  tagList: { listStyle: 'none' },
+  tagList: {listStyle: 'none'},
   input: {
     backgroundColor: 'var(--dropdown-bg)',
     border: 'none',
     color: 'inherit',
     marginBottom: '0.25rem',
   },
-  label: { cursor: 'pointer' },
+  label: {cursor: 'pointer'},
   newTag: {
     fontStyle: 'italic',
   },

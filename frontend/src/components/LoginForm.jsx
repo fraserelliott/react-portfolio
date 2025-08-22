@@ -1,22 +1,10 @@
-import { useState } from 'react';
-import { useGlobalStore, useToast } from './GlobalStoreProvider';
-import api from '../api.jsx';
+import {useState} from 'react';
+import {useSession} from '../contexts/SessionContext.jsx';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginData, setLoginData] = useGlobalStore('loginData');
-  const { addToastMessage } = useToast()
-
-  const attemptLogin = async () => {
-    try {
-      const res = await api.post('/api/auth', { email, password });
-      sessionStorage.setItem('loginData', JSON.stringify(res.data));
-      setLoginData(res.data);
-    } catch (err) {
-      addToastMessage(err.message || 'Error logging in.', 'error');
-    }
-  };
+  const {login} = useSession();
 
   return (
     <div className="panel w-m text-align-center">
@@ -24,7 +12,7 @@ const LoginForm = () => {
         className="flex flex-column"
         onSubmit={(e) => {
           e.preventDefault();
-          attemptLogin();
+          login(email, password);
         }}
       >
         <label htmlFor="email">Email:</label>

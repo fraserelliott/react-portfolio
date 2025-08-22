@@ -1,16 +1,12 @@
-import { useGlobalStore } from '../components/GlobalStoreProvider';
 import Dashboard from '../components/Dashboard';
 import LoginForm from '../components/LoginForm';
+import {useSession} from '../contexts/SessionContext.jsx';
 
 const DashboardPage = () => {
-  const [loginData, setLoginData] = useGlobalStore('loginData');
+  const {token} = useSession();
 
-  return (
-    <>
-      {!loginData && <LoginForm />}
-      {loginData && <Dashboard />}
-    </>
-  );
+  if (token) return <LoginForm/>;
+  else return <Dashboard/>
 };
 
 export default DashboardPage;

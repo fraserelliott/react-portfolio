@@ -1,7 +1,7 @@
-import { useGlobalStore } from './GlobalStoreProvider';
+import {useToast} from '../contexts/ToastContext.jsx';
 
 const ToastMessageDisplay = () => {
-  const [toastMessages, setToastMessages] = useGlobalStore('toastMessages');
+  const {toastMessages} = useToast();
 
   const calculateStyle = (toast) => {
     let style;
@@ -17,7 +17,7 @@ const ToastMessageDisplay = () => {
         break;
     }
 
-    return toast.fading ? { ...style, ...styles.hide } : style;
+    return toast.fading ? {...style, ...styles.hide} : style;
   };
 
   return (
