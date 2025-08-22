@@ -1,7 +1,7 @@
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const links = [
-  { name: 'GitHub', url: 'https://github.com/fraserelliott' },
+  {name: 'GitHub', url: 'https://github.com/fraserelliott'},
   {
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/fraser-elliott-77100974/',
@@ -24,8 +24,8 @@ const Footer = () => {
       ))}
       <span
         role="link"
-        onClick={() => navigate('/dashboard')}
-        style={{ cursor: 'pointer' }}
+        onClick={() => navigate('/login')}
+        style={{cursor: 'pointer'}}
       >
         🔧
       </span>

@@ -1,6 +1,7 @@
 import styles from './Header.module.css';
 import {NavLink} from "react-router-dom";
 import {useSession} from '../contexts/SessionContext.jsx';
+import {LoggedInTimer} from "./LoggedInTimer.jsx";
 
 const Header = () => {
   return (
@@ -9,7 +10,10 @@ const Header = () => {
         <NavLink to="/">
           <h1 className={styles.heading}>Fraser Elliott's Portfolio</h1>
         </NavLink>
-        <Navbar/>
+        <div className={styles.container}>
+          <LoggedInTimer/>
+          <Navbar/>
+        </div>
       </header>
     </>
   );

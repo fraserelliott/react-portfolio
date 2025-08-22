@@ -8,12 +8,12 @@ import {SessionProvider} from './contexts/SessionContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <ToastProvider>
-    <SessionProvider>
-      <ApiProvider>
+    <ApiProvider>
+      <SessionProvider>
         <ProjectsProvider>
           <App/>
         </ProjectsProvider>
-      </ApiProvider>
-    </SessionProvider>
+      </SessionProvider>
+    </ApiProvider>
   </ToastProvider>
 );

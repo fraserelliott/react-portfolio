@@ -1,0 +1,25 @@
+.timer {
+    font-variant-numeric: tabular-nums; /* prevents layout jump */
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.timer--warn {
+    color: #b91c1c; /* red-700 */
+}
+
+.timer--alert {
+    color: #dc2626; /* red-600 */
+    background: rgba(220, 38, 38, 0.08);
+    animation: timer-pulse 1s linear infinite;
+}
+
+@keyframes timer-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}

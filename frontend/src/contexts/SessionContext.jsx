@@ -13,21 +13,21 @@ export const SessionContext = createContext({
 });
 
 export function SessionProvider({children}) {
-  const {runApi} = useApi();
-  const [token, setToken] = useState(() => sessionStorage.getItem("authToken"));
+  const {runApi, registerUnauthorisedHandler} = useApi();
+  const [token, setToken] = useState(() => localStorage.getItem("authToken"));
 
   // TODO: validate token after retrieving
 
-  // Persist token to sessionStorage
+  // Persist token to localStorage
   useEffect(() => {
-    if (token) sessionStorage.setItem("authToken", token);
-    else sessionStorage.removeItem("authToken");
+    if (token) localStorage.setItem("authToken", token);
+    else localStorage.removeItem("authToken");
   }, [token]);
 
   const loginAsync = useCallback(async (email, password) => {
     return runApi(
       api.post("/api/auth", {email, password}),
-      (updated) => setToken(updated.token),
+      (data) => setToken(data.token),
       "Error logging in"
     );
   }, [runApi]);
@@ -35,6 +35,13 @@ export function SessionProvider({children}) {
   const logout = useCallback(() => {
     setToken(null);
   }, []);
+
+  useEffect(() => {
+    registerUnauthorisedHandler(() => {
+      // Only do work if we actually had a token
+      setToken((prev) => (prev ? null : prev));
+    });
+  }, [registerUnauthorisedHandler]);
 
   const value = useMemo(() => ({
     token,

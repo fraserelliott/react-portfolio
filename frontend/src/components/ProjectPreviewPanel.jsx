@@ -4,6 +4,7 @@ import styles from './ProjectPreviewPanel.module.css';
 
 const ProjectPreviewPanel = (props) => {
   const {projects} = useProjects();
+  // TODO: need to buffer with loading state
 
   const handleClick = (project) => {
     if (props.onClick) props.onClick(project);

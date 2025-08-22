@@ -18,15 +18,6 @@ const Dashboard = () => {
   const {addProjectAsync, updateProjectAsync, deleteProjectAsync, addTagAsync} = useProjects();
   const navigate = useNavigate();
 
-  // TODO: force logout in ApiContext on auth fail
-  // const logout = (forced) => {
-  //   sessionStorage.removeItem('loginData');
-  //   setLoginData(null);
-  //   navigate('/');
-  //   if (forced) addToastMessage("You've been logged out.", 'error');
-  //   else addToastMessage("You've been logged out.", 'success');
-  // };
-
   useEffect(() => {
     if (!token)
       navigate('/');

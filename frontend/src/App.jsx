@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectPage from './pages/ProjectPage';
 import DashboardPage from './pages/DashboardPage';
+import LoginPage from './pages/LoginPage';
 import PageNotFound from './pages/PageNotFound';
 import ToastMessageDisplay from './components/ToastMessageDisplay';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<HomePage/>}/>
           <Route path="/projects" element={<ProjectsPage/>}/>
           <Route path="/project" element={<ProjectPage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
           <Route path="/dashboard" element={<DashboardPage/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>

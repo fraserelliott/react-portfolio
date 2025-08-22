@@ -1,10 +1,15 @@
 import {useState} from 'react';
 import {useSession} from '../contexts/SessionContext.jsx';
+import {useNavigate} from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {login} = useSession();
+  const {token, loginAsync} = useSession();
+  const navigate = useNavigate();
+
+  if (token)
+    navigate('/dashboard');
 
   return (
     <div className="panel w-m text-align-center">
@@ -12,7 +17,7 @@ const LoginForm = () => {
         className="flex flex-column"
         onSubmit={(e) => {
           e.preventDefault();
-          login(email, password);
+          loginAsync(email, password);
         }}
       >
         <label htmlFor="email">Email:</label>
@@ -37,4 +42,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;
