@@ -1,9 +1,9 @@
-import { useGlobalStore } from './GlobalStoreProvider';
+import {useProjects} from '../contexts/ProjectsContext.jsx';
 import DOMPurify from 'dompurify';
 import styles from './ProjectPreviewPanel.module.css';
 
 const ProjectPreviewPanel = (props) => {
-  const [projects, setProjects] = useGlobalStore('projects');
+  const {projects} = useProjects();
 
   const handleClick = (project) => {
     if (props.onClick) props.onClick(project);
@@ -46,7 +46,7 @@ const ProjectPreviewPanel = (props) => {
   );
 };
 
-const ProjectPreview = ({ project, handleClick }) => {
+const ProjectPreview = ({project, handleClick}) => {
   return (
     <div className={styles.project}>
       <div
@@ -63,7 +63,7 @@ const ProjectPreview = ({ project, handleClick }) => {
         )}
         {project.imageUrl && (
           <div className={styles.centered}>
-            <img src={project.imageUrl} alt={project.title} />
+            <img src={project.imageUrl} alt={project.title}/>
           </div>
         )}
         <p

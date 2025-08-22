@@ -1,23 +1,25 @@
-import { useState } from 'react';
-import { useGlobalStore, useToast } from './GlobalStoreProvider.jsx';
+import {useState} from 'react';
+import {useGlobalStore, useToast} from './GlobalStoreProvider.jsx';
 import ProjectPreviewPanel from './ProjectPreviewPanel';
 import TagSelector from './TagSelector';
 import ProjectForm from './ProjectForm';
 import api from '../api.jsx';
+import {useProjects} from '../contexts/ProjectsContext.jsx';
+import {useNavigate} from 'react-router-dom';
 
 const Dashboard = () => {
-  const [projects, setProjects] = useGlobalStore('projects');
   const [loginData, setLoginData] = useGlobalStore('loginData');
-  const [currentPage, setCurrentPage] = useGlobalStore('currentPage');
   const [mode, setMode] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentProject, setCurrentProject] = useState(null);
-  const { addToastMessage } = useToast();
+  const {addToastMessage} = useToast();
+  const {projects, loading, error} = useProjects();
+  const navigate = useNavigate();
 
   const logout = (forced) => {
     sessionStorage.removeItem('loginData');
     setLoginData(null);
-    setCurrentPage('home');
+    navigate('/');
     if (forced) addToastMessage("You've been logged out.", 'error');
     else addToastMessage("You've been logged out.", 'success');
   };
@@ -60,7 +62,7 @@ const Dashboard = () => {
    * - Updating the project list and closing the form
    */
   const saveAndCloseForm = async (formData, uploadData) => {
-    let newData = { ...formData };
+    let newData = {...formData};
 
     if (!newData.title || !newData.repoLink || !newData.content) {
       addToastMessage(
@@ -104,8 +106,8 @@ const Dashboard = () => {
     // Decide whether to create a new post or update an existing one based on the mode.
     try {
       const res = mode === 'edit'
-          ? await api.put(`/api/posts/${currentProject.id}`, newData)
-          : await api.post('/api/posts', newData);
+        ? await api.put(`/api/posts/${currentProject.id}`, newData)
+        : await api.post('/api/posts', newData);
 
       const data = res.data;
       // After saving, update the project list in state—replacing or appending depending on mode.
@@ -131,7 +133,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{height: '100%'}}>
       {!mode && (
         <>
           <div className="flex justify-end horizontal-spacing my-2">

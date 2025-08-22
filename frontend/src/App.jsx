@@ -16,27 +16,16 @@ import OpenSourceBadge from "./components/OpenSourceBadge";
 
 function App() {
   const [loginData, setLoginData] = useGlobalStore('loginData');
-  const [projects, setProjects] = useGlobalStore('projects');
   const [tags, setTags] = useGlobalStore('tags');
   const {addToastMessage} = useToast();
 
   // Load data from API and session storage on mount
   useEffect(() => {
-    loadProjects();
     loadTags();
 
     const loginData = sessionStorage.getItem('loginData');
     if (loginData) setLoginData(JSON.parse(loginData));
   }, []);
-
-  const loadProjects = async () => {
-    try {
-      const res = await api.get('/api/posts');
-      setProjects(res.data);
-    } catch (err) {
-      addToastMessage(err.message || 'Failed to load projects.', 'error');
-    }
-  };
 
   const loadTags = async () => {
     try {

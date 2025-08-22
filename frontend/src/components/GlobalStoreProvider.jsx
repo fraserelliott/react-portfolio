@@ -1,14 +1,13 @@
-import { createContext, useContext, useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import {createContext, useContext, useState} from 'react';
+import {v4 as uuid} from 'uuid';
 
 const GlobalStoreContext = createContext(null);
 
 // Provider component that wraps the app and provides global state via context
-export function GlobalStoreProvider({ children }) {
+export function GlobalStoreProvider({children}) {
   // Define all global state pieces here and how the context accesses them
   const [currentPage, setCurrentPage] = useState('home');
   const [loginData, setLoginData] = useState(null);
-  const [projects, setProjects] = useState([]);
   const [tags, setTags] = useState([]);
   const [currentProject, setCurrentProject] = useState();
   const [toastMessages, setToastMessages] = useState([]);
@@ -16,7 +15,6 @@ export function GlobalStoreProvider({ children }) {
   const value = {
     currentPageState: [currentPage, setCurrentPage],
     loginDataState: [loginData, setLoginData],
-    projectsState: [projects, setProjects],
     tagsState: [tags, setTags],
     currentProjectState: [currentProject, setCurrentProject],
     toastMessagesState: [toastMessages, setToastMessages],
@@ -59,8 +57,6 @@ export function useGlobalStore(key) {
       return context.currentPageState;
     case 'loginData':
       return context.loginDataState;
-    case 'projects':
-      return context.projectsState;
     case 'tags':
       return context.tagsState;
     case 'currentProject':
@@ -109,7 +105,7 @@ export function useToast() {
     setTimeout(() => {
       setToastMessages((prev) =>
         prev.map((msg) => {
-          return msg.id === id ? { ...msg, fading: true } : msg;
+          return msg.id === id ? {...msg, fading: true} : msg;
         })
       );
 
@@ -119,5 +115,5 @@ export function useToast() {
     }, delayMs);
   };
 
-  return { addToastMessage };
+  return {addToastMessage};
 }
