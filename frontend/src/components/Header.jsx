@@ -4,16 +4,26 @@ import {useSession} from '../contexts/SessionContext.jsx';
 import {LoggedInTimer} from "./LoggedInTimer.jsx";
 
 const Header = () => {
+  const {token, logout} = useSession();
+
   return (
     <>
-      <header className={styles.container}>
-        <NavLink to="/">
-          <h1 className={styles.heading}>Fraser Elliott's Portfolio</h1>
-        </NavLink>
+      <header>
         <div className={styles.container}>
-          <LoggedInTimer/>
+          <NavLink to="/">
+            <h1 className={styles.heading}>Fraser Elliott's Portfolio</h1>
+          </NavLink>
           <Navbar/>
         </div>
+        {token && (
+          <div className={styles.container}>
+            <div className={styles.container}>
+              <button onClick={() => logout()}>Logout</button>
+              <LoggedInTimer/>
+            </div>
+            <Navbar admin/>
+          </div>
+        )}
       </header>
     </>
   );
@@ -24,9 +34,12 @@ const pages = [
   {name: "Projects", to: "/projects"},
 ];
 
-const Navbar = () => {
-  const {token} = useSession();
+const adminPages = [
+  {name: "Dashboard", to: "/dashboard"},
+  {name: "Images", to: "/images"},
+]
 
+const Navbar = ({admin}) => {
   const renderPageLink = (page) => {
     return (
       <li
@@ -43,12 +56,19 @@ const Navbar = () => {
     );
   };
 
-  return (
-    <ul className={styles.navList}>
-      {pages.map((page) => renderPageLink(page))}
-      {token && renderPageLink({name: 'Dashboard', to: '/dashboard'})}
-    </ul>
-  )
+  if (admin) {
+    return (
+      <ul className={styles.navList}>
+        {adminPages.map((page) => renderPageLink(page))}
+      </ul>
+    )
+  } else {
+    return (
+      <ul className={styles.navList}>
+        {pages.map((page) => renderPageLink(page))}
+      </ul>
+    )
+  }
 };
 
 export default Header;

@@ -5,14 +5,17 @@ import {ProjectsProvider} from './contexts/ProjectsContext.jsx';
 import {ApiProvider} from './contexts/ApiContext.jsx';
 import {ToastProvider} from './contexts/ToastContext.jsx';
 import {SessionProvider} from './contexts/SessionContext.jsx';
+import {ImagesProvider} from './contexts/ImagesContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <ToastProvider>
     <ApiProvider>
       <SessionProvider>
-        <ProjectsProvider>
-          <App/>
-        </ProjectsProvider>
+        <ImagesProvider>
+          <ProjectsProvider>
+            <App/>
+          </ProjectsProvider>
+        </ImagesProvider>
       </SessionProvider>
     </ApiProvider>
   </ToastProvider>

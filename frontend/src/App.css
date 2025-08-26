@@ -1,140 +1,177 @@
 h1 {
-  font-family: var(--font-family-primary);
-  font-size: 1.3rem;
+    font-family: var(--font-family-primary);
+    font-size: 1.3rem;
 }
 
 button {
-  background-color: var(--btn-primary);
-  color: inherit;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: background-color 150ms ease, transform 75ms ease;
-  padding: 0.25rem;
+    background-color: var(--btn-primary);
+    color: inherit;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: background-color 150ms ease, transform 75ms ease;
+    padding: 0.25rem;
 }
 
 button:hover {
-  background-color: var(--btn-primary-hover);
+    background-color: var(--btn-primary-hover);
 }
 
 button:active {
-  background-color: var(--btn-primary-active);
-  transform: scale(0.97);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: var(--btn-primary-active);
+    transform: scale(0.97);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-danger {
-  background-color: var(--btn-danger);
+    background-color: var(--btn-danger);
 }
 
 .panel {
-  background-color: var(--bg-secondary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
-  width: 90%;
-  margin: 1rem auto;
-  padding: 1rem;
-  border-radius: 10px;
-  border: var(--glass-border);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    width: 90%;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 10px;
+    border: var(--glass-border);
+}
+
+.card {
+    width: 300px;
+    background-color: var(--bg-secondary);
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.cardRow {
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .flex {
-  display: flex;
+    display: flex;
 }
 
 .flex-grow {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .flex-column {
-  flex-direction: column;
+    flex-direction: column;
 }
 
 .flex-wrap {
-  flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.gap-1 {
+    gap: 0.5rem;
 }
 
 .justify-between {
-  justify-content: space-between;
+    justify-content: space-between;
 }
 
 .justify-end {
-  justify-content: end;
+    justify-content: end;
+}
+
+.justify-center {
+    justify-content: center;
 }
 
 .align-center {
-  align-items: center;
+    align-items: center;
 }
 
 .w-l {
-  width: min(691px, 90vw);
+    width: min(691px, 90vw);
+}
+
+.m-1 {
+    margin: 0.5rem;
 }
 
 .mx-1 {
-  margin-left: 5px;
-  margin-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .my-1 {
-  margin-top: 5px;
-  margin-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .my-2 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .p-1 {
-  padding: 5px;
+    padding: 5px;
 }
 
 .text-align-center {
-  text-align: center;
+    text-align: center;
 }
 
 .w-m {
-  width: min(450px, 90vw);
+    width: min(450px, 90vw);
 }
 
 form > * {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 1;
 }
 
 input {
-  background-color: var(--btn-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
-  color: var(--text-primary);
-  border: var(--glass-border);
-  padding: 0.1rem;
+    background-color: var(--btn-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    border: var(--glass-border);
+    padding: 0.1rem;
 }
 
 textarea {
-  background-color: var(--btn-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
-  color: var(--text-primary);
-  border: var(--glass-border);
-  resize: none;
-  padding: 0.1rem;
+    background-color: var(--btn-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    border: var(--glass-border);
+    resize: none;
+    padding: 0.1rem;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--text-muted);
+    color: var(--text-muted);
 }
 
 .horizontal-spacing > * {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
 }
 
 .vertical-spacing > * {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
 }
 
 /* responsive behaviours */
 
 @media (max-width: 768px) {
-  .flex-row-desktop {
-    flex-direction: column;
-  }
+    .flex-row-desktop {
+        flex-direction: column;
+    }
 }
