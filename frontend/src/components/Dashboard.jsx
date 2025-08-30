@@ -7,7 +7,6 @@ import api from '../api.jsx';
 import {useProjects} from '../contexts/ProjectsContext.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useSession} from '../contexts/SessionContext.jsx';
-import project from './Project.jsx';
 
 const Dashboard = () => {
   const {token, logout} = useSession();
@@ -112,7 +111,6 @@ const Dashboard = () => {
       {!mode && (
         <>
           <div className="flex justify-end horizontal-spacing my-2">
-            <button onClick={() => logout(false)}>Logout</button>
             <button onClick={() => openForm('create', null)}>New Post</button>
             <TagSelector
               buttonText="Filter"

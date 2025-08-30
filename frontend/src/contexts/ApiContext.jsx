@@ -18,15 +18,6 @@ export function ApiProvider({children}) {
     );
   }, [addToastMessage]);
 
-  /**
-   * Executes an API request with standardized error handling and optional success/error logic.
-   * @template T
-   * @param {Promise<import("axios").AxiosResponse<T>>} promise
-   * @param {(data: T) => void} [onSuccess]
-   * @param {string} [fallbackMsg]
-   * @param {(err: any) => void} [onError]
-   * @returns {Promise<T|null>}
-   */
   const runApi = useCallback(async (promise, onSuccess, fallbackMsg, onError) => {
     try {
       const {data} = await promise;

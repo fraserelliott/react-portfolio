@@ -19,6 +19,7 @@ const ProjectPage = () => {
   }, [id, project, loading, navigate])
 
   if (loading) return null;
+  // TODO: error component
   if (error) return <h1>Error...</h1>;
   return <Project project={project}/>;
 }
