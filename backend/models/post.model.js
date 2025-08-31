@@ -1,38 +1,37 @@
-const {Model, DataTypes} = require("sequelize");
-const {sequelize} = require("../config/");
+const { Model, DataTypes } = require('sequelize');
+const { sequelize } = require('../config/');
 
-class Post extends Model {
-}
+class Post extends Model {}
 
 Post.init(
   {
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     content: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     featured: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+    },
+    summary: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     repoLink: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
-    imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: true
-    }
   },
   {
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: "posts"
-  }
+    modelName: 'posts',
+  },
 );
 
 module.exports = Post;

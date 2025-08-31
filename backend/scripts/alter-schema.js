@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { sequelize } = require('../config/connection');
+const { sequelize } = require('../config/');
 require('../models/index.model');
 
 sequelize.sync({ alter: true, logging: console.log }).then(() => {
