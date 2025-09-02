@@ -1,12 +1,12 @@
 if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
+  require("dotenv").config();
 }
 
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
-const { sequelize, testConnection } = require("./config/connection");
+const {sequelize, testConnection} = require("./config/");
 testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
@@ -27,7 +27,7 @@ app.use((req, res) => {
 // Error logging
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
-  res.status(500).json({ error: err.message });
+  res.status(500).json({error: err.message});
 });
 
 const PORT = process.env.PORT || 3001;

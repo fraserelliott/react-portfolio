@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import MarkdownViewer from './MarkdownViewer';
 import styles from './Project.module.css';
 
 const Project = ({ project }) => {
@@ -7,9 +7,7 @@ const Project = ({ project }) => {
       <div className={styles.project}>
         <h1 className={styles.centered}>{project.title}</h1>
         {project.tags.length > 0 && (
-          <h2 className={styles.centered}>
-            {project.tags.map((tag) => tag.name).join(', ')}
-          </h2>
+          <h2 className={styles.centered}>{project.tags.map((tag) => tag.name).join(', ')}</h2>
         )}
         <a href={project.repoLink} target="_blank">
           <h1 className={styles.centered}>GitHub Link</h1>
@@ -19,12 +17,7 @@ const Project = ({ project }) => {
             <img src={project.imageUrl} height="150" alt={project.title} />
           </div>
         )}
-        <p
-          className={styles.projectContent}
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(project.content),
-          }}
-        ></p>
+        <MarkdownViewer className={styles.projectContent}>{project.content}</MarkdownViewer>
       </div>
     </div>
   );

@@ -22,10 +22,30 @@
 }
 
 .projectContent > * {
-  margin-bottom: 0.5em;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+}
+
+.projectContent h1,
+.projectContent h2,
+.projectContent h3,
+.projectContent h4,
+.projectContent h5,
+.projectContent h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.projectContent p {
+  margin-bottom: 1rem;
+}
+
+.projectContent img {
+  display: block;
+  margin: 1rem auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .projectContent ul {
