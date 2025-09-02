@@ -32,6 +32,7 @@ A lightweight, personal content management system built with **Node.js**, **Expr
 ## 🎨 Frontend Methodology
 
 Rather than relying on component libraries, this project uses reusable components I built with React. This approach:
+
 - Offers full control over styling and behaviour
 - Allows for immediate changes to styles without needing to track down framework variables
 - Ensures consistency across elements (modals, toasts, form inputs, etc.)
@@ -103,6 +104,7 @@ npm run start
 ```
 
 Optional script that supports hot-reloading on saving the backend code. Run `npm run build` any time you update the code in `frontend`.
+
 ```bash
 cd backend
 npm run dev
@@ -145,7 +147,7 @@ For Render:
 5. Set the deploy command to `npm run start`
 6. Set up a custom domain (optional)
 
-> 📚 [Cloudinary Setup Guide](https://cloudinary.com/documentation)  
+> 📚 [Cloudinary Setup Guide](https://cloudinary.com/documentation)
 > 🚀 [Render Deployment Guide](https://render.com/docs)
 
 ---
@@ -159,13 +161,9 @@ Issues and PRs are welcome! Please open an issue to suggest features or report b
 ## 💡 Feature Roadmap
 
 - Search functionality to find projects
-- Use `react-router` for a better simulated multiple-page experience
-- Implement expiration of JWTs for added security
 - Make site style and About section editable via the dashboard
 - Contact form with optional email integration
 - Improved media handling (e.g., video support)
-- Markdown to HTML conversion clientside
-- Multiple images using merge tags (e.g. `{{img:id-1}}`)
 - Server-side generation for indexing in search engines
 
 ---
