@@ -7,6 +7,7 @@ import { useToast } from '../contexts/ToastContext.jsx';
 import TagSelector from '../components/TagSelector.jsx';
 import { Controller, useForm } from 'react-hook-form';
 import { useProjects } from '../contexts/ProjectsContext.jsx';
+import Project from '../components/Project.jsx';
 
 const EditProjectPage = () => {
   const { token } = useSession();
@@ -22,8 +23,9 @@ const EditProjectPage = () => {
   } = useProjects();
   const { addToastMessage } = useToast();
   const [project, setProject] = useState();
+  const [previewData, setPreviewData] = useState(null);
 
-  const { control, handleSubmit, register, reset } = useForm({
+  const { control, handleSubmit, register, reset, getValues } = useForm({
     defaultValues: {
       title: '',
       featured: false,
@@ -33,6 +35,10 @@ const EditProjectPage = () => {
       tags: [],
     },
   });
+
+  const onPreview = () => {
+    setPreviewData(getValues());
+  };
 
   const searchParams = new URLSearchParams(location.search);
   const raw = searchParams.get('id');
@@ -86,44 +92,61 @@ const EditProjectPage = () => {
   if (imagesError || postsError) return <h1>Error...</h1>;
 
   return (
-    <form
-      className="flex flex-column gap-1 m-1"
-      style={{ height: '80%' }}
-      onSubmit={handleSubmit(handleEdit, displayErrors)}>
-      <div className="flex gap-1 align-center">
-        <label>Title</label>
-        <input className="flex-grow" type="text" {...register('title', { required: true })} />
-        <label>Featured</label>
-        <input type="checkbox" {...register('featured')} />
-        <button onClick={() => navigate('/dashboard')}>X</button>
-      </div>
-      <Controller
-        name="tags"
-        control={control}
-        render={({ field: { value, onChange } }) => (
-          <div className="flex gap-1 align-center">
-            <TagDisplay
-              tags={value}
-              onRemoveTag={(tag) => onChange(value.filter((t) => t.id !== tag.id))}
-            />
-            <TagSelector value={value} onChange={onChange} allowCreate showUnusedTags />
+    <>
+      <form
+        className="flex flex-column gap-1 m-1"
+        style={{ height: '80%' }}
+        onSubmit={handleSubmit(handleEdit, displayErrors)}>
+        <div className="flex gap-1 align-center">
+          <label>Title</label>
+          <input className="flex-grow" type="text" {...register('title', { required: true })} />
+          <label>Featured</label>
+          <input type="checkbox" {...register('featured')} />
+          <button type="button" onClick={() => navigate('/dashboard')}>
+            X
+          </button>
+        </div>
+        <Controller
+          name="tags"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <div className="flex gap-1 align-center">
+              <TagDisplay
+                tags={value}
+                onRemoveTag={(tag) => onChange(value.filter((t) => t.id !== tag.id))}
+              />
+              <TagSelector value={value} onChange={onChange} allowCreate showUnusedTags />
+            </div>
+          )}
+        />
+        <div className="flex gap-1 align-center">
+          <label>Repo</label>
+          <input className="flex-grow" {...register('repoLink', { required: true })} />
+        </div>
+        <div className="flex gap-1 align-center">
+          <label>Summary</label>
+          <textarea className="flex-grow" rows="2" {...register('summary', { required: true })} />
+        </div>
+        <textarea className="flex-grow" {...register('content', { required: true })} />
+        <div className="flex gap-1 justify-center align-center">
+          <button type="button" onClick={() => navigate('/dashboard')} className="btn-danger">
+            Cancel
+          </button>
+          <button type="button" onClick={() => setPreviewData(getValues())}>
+            Preview
+          </button>
+          <button>Save</button>
+        </div>
+      </form>
+      {previewData && (
+        <div className="modal">
+          <div className="flex flex-column w-90 h-90">
+            <Project project={previewData} />
+            <button onClick={() => setPreviewData(null)}>Close</button>
           </div>
-        )}
-      />
-      <div className="flex gap-1 align-center">
-        <label>Repo</label>
-        <input className="flex-grow" {...register('repoLink', { required: true })} />
-      </div>
-      <div className="flex gap-1 align-center">
-        <label>Summary</label>
-        <textarea className="flex-grow" rows="2" {...register('summary', { required: true })} />
-      </div>
-      <textarea className="flex-grow" {...register('content', { required: true })} />
-      <div className="flex gap-1 justify-center align-center">
-        <button>Cancel</button>
-        <button>Save</button>
-      </div>
-    </form>
+        </div>
+      )}
+    </>
   );
 };
 

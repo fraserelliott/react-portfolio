@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useProjects } from '../contexts/ProjectsContext.jsx';
-import styles from './ProjectPage.module.css';
-import MarkdownViewer from '../components/MarkdownViewer.jsx';
+import Project from '../components/Project.jsx';
 
 const ProjectPage = () => {
   const location = useLocation();
@@ -22,25 +21,7 @@ const ProjectPage = () => {
   // TODO: error component
   if (error) return <h1>Error...</h1>;
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.project}>
-        <h1 className={styles.centered}>{project.title}</h1>
-        {project.tags.length > 0 && (
-          <h2 className={styles.centered}>{project.tags.map((tag) => tag.name).join(', ')}</h2>
-        )}
-        <a href={project.repoLink} target="_blank">
-          <h1 className={styles.centered}>GitHub Link</h1>
-        </a>
-        {project.imageUrl && (
-          <div className={styles.centered}>
-            <img src={project.imageUrl} height="150" alt={project.title} />
-          </div>
-        )}
-        <MarkdownViewer className={styles.projectContent}>{project.content}</MarkdownViewer>
-      </div>
-    </div>
-  );
+  return <Project project={project} />;
 };
 
 export default ProjectPage;
