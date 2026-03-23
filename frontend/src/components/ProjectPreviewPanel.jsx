@@ -1,6 +1,6 @@
-import { useProjects } from '../contexts/ProjectsContext.jsx';
-import styles from './ProjectPreviewPanel.module.css';
-import MarkdownViewer from './MarkdownViewer.jsx';
+import { useProjects } from "../contexts/ProjectsContext.jsx";
+import styles from "./ProjectPreviewPanel.module.css";
+import MarkdownViewer from "./MarkdownViewer.jsx";
 
 const ProjectPreviewPanel = (props) => {
   const { projects } = useProjects();
@@ -13,17 +13,22 @@ const ProjectPreviewPanel = (props) => {
   // Filter projects based on props: featured, searchTerm and selectedTags
   const filterProjects = () => {
     let filteredProjects = [...projects];
-    if (props.featured) filteredProjects = filteredProjects.filter((project) => project.featured);
+    if (props.featured)
+      filteredProjects = filteredProjects.filter((project) => project.featured);
 
     if (props.searchTerm)
       filteredProjects = filteredProjects.filter((project) =>
-        project.name.toLowerCase().includes(props.searchTerm.toLowerCase().trim()),
+        project.name
+          .toLowerCase()
+          .includes(props.searchTerm.toLowerCase().trim()),
       );
 
     // Check if any of the tag IDs within the project match any tag IDs within selectedTags. If selectedTags is empty, then don't filter with it.
     if (props.selectedTags && props.selectedTags.length > 0)
       filteredProjects = filteredProjects.filter((project) =>
-        project.tags.some((tag) => props.selectedTags.some((selected) => selected.id === tag.id)),
+        project.tags.some((tag) =>
+          props.selectedTags.some((selected) => selected.id === tag.id),
+        ),
       );
 
     return filteredProjects;
@@ -49,18 +54,23 @@ const ProjectPreview = ({ project, handleClick }) => {
         className={styles.projectMain}
         onClick={() => {
           if (handleClick) handleClick();
-        }}>
+        }}
+      >
         <h1 className={styles.centered}>{project.title}</h1>
         {project.tags.length > 0 && (
-          <h2 className={styles.centered}>{project.tags.map((tag) => tag.name).join(', ')}</h2>
+          <h2 className={styles.centered}>
+            {project.tags.map((tag) => tag.name).join(", ")}
+          </h2>
         )}
         {project.imageUrl && (
           <div className={styles.centered}>
             <img src={project.imageUrl} alt={project.title} />
           </div>
         )}
-        <MarkdownViewer className={styles.projectContent}>{project.summary}</MarkdownViewer>
-        <span className={styles.tapHint}>Tap to view more</span>
+        <MarkdownViewer className={styles.projectContent}>
+          {project.summary}
+        </MarkdownViewer>
+        <span className={styles.tapHint}>View details</span>
       </div>
       <a href={project.repoLink} className={styles.githubUrl} target="_blank">
         <h2 className={styles.centered}>GitHub Link</h2>
