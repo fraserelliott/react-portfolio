@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
-const { sequelize } = require('../config/');
+const { Model, DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
+const { sequelize } = require("../../config");
 
 class User extends Model {}
 
@@ -19,8 +19,8 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        name: 'unique_email',
-        msg: 'Email must be unique',
+        name: "unique_email",
+        msg: "Email must be unique",
       },
     },
     password: {
@@ -35,12 +35,12 @@ User.init(
         return newUserData;
       },
       beforeUpdate: async (user) => {
-        if (user.changed('password')) {
-          if (user.password && user.password.trim() !== '') {
+        if (user.changed("password")) {
+          if (user.password && user.password.trim() !== "") {
             user.password = await bcrypt.hash(user.password, 10);
           } else {
             // If frontend sent empty password, keep the old one
-            user.password = user.previous('password');
+            user.password = user.previous("password");
           }
         }
       },
@@ -49,7 +49,7 @@ User.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'users',
+    modelName: "users",
   },
 );
 

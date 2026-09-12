@@ -1,7 +1,4 @@
-const User = require("./user.model");
-const Post = require("./post.model");
-const Tag = require("./tag.model");
-const Image = require("./image.model");
+const { User, Post, Tag, Image } = require("./portfolio");
 
 // Using a junction table PostTags so tags can be retrieved. This junction table maps the post"s id to potentially multiple tag ids.
 Post.belongsToMany(Tag, {
@@ -9,7 +6,7 @@ Post.belongsToMany(Tag, {
   as: "tags",
   foreignKey: "post_id",
   otherKey: "tag_id",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 Tag.belongsToMany(Post, {
@@ -17,9 +14,12 @@ Tag.belongsToMany(Post, {
   as: "posts",
   foreignKey: "tag_id",
   otherKey: "post_id",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 module.exports = {
-  User, Post, Tag, Image
+  User,
+  Post,
+  Tag,
+  Image,
 };
