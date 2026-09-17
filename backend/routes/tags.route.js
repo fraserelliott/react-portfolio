@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
         // count join rows; cast to int for convenience
         [
           Sequelize.cast(
-            Sequelize.fn("COUNT", Sequelize.col("posts->PostTags.post_id")),
+            Sequelize.fn("COUNT", Sequelize.col("posts->PostTag.postId")),
             "integer",
           ),
           "usageCount",
@@ -63,6 +63,7 @@ router.get("/", async (req, res) => {
     });
     res.json(tags);
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Error retrieving tags." });
   }
 });

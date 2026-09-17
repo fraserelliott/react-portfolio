@@ -1,0 +1,52 @@
+[
+  {
+    "id": "5c3c6a3b-4246-46c0-b997-b754608c1191",
+    "name": "Evans and Sons",
+    "exclusive": false
+  },
+  {
+    "id": "dca587e9-fa46-4ee5-bc63-e9d174bc588b",
+    "name": "Smith Ltd",
+    "exclusive": false
+  },
+  {
+    "id": "19148717-d991-4bc8-9bf7-b1e8ace1f633",
+    "name": "Carroll, Hunt and Edwards",
+    "exclusive": false
+  },
+  {
+    "id": "538cf655-84d0-44e8-b636-33f87261499f",
+    "name": "Pritchard, Campbell and Smith",
+    "exclusive": false
+  },
+  {
+    "id": "9cd81c95-42db-4485-bd0d-9e8adcfb53ac",
+    "name": "Clark Inc",
+    "exclusive": false
+  },
+  {
+    "id": "52e48708-e249-4b88-9585-36e7458b17be",
+    "name": "Gill-Tucker",
+    "exclusive": true
+  },
+  {
+    "id": "f8d45712-9866-4146-8b5d-aab0fde4b32b",
+    "name": "Hughes, Harper and Bowen",
+    "exclusive": false
+  },
+  {
+    "id": "ec5d5186-201c-4c2f-b499-e5d30cfdb660",
+    "name": "West Ltd",
+    "exclusive": true
+  },
+  {
+    "id": "75153073-b7a4-4b26-b68d-4f4513d6c47e",
+    "name": "Frost, Booth and Davis",
+    "exclusive": false
+  },
+  {
+    "id": "999a479b-1895-4466-8cd8-0925ef0fd453",
+    "name": "Cartwright-Foster",
+    "exclusive": false
+  }
+]

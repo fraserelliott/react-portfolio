@@ -82,11 +82,11 @@ router.get("/", async (req, res) => {
 
       // Find post IDs linked to any of the tag IDs (junction table)
       const postIds = await sequelize.models.PostTags.findAll({
-        where: { tag_id: { [Op.in]: tagIds } },
-        attributes: ["post_id"],
-        group: ["post_id"],
+        where: { tagId: { [Op.in]: tagIds } },
+        attributes: ["postId"],
+        group: ["postId"],
         raw: true,
-      }).then((results) => results.map((r) => r.post_id));
+      }).then((results) => results.map((r) => r.postId));
 
       where.id = { [Op.in]: postIds };
     }
