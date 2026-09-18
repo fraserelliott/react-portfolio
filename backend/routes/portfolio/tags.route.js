@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const { Tag, Post } = require("../models/");
+const { Tag, Post } = require("../../models");
 const { FailSchema, StringField } = require("@fraserelliott/fail");
-const inputValidation = require("../middleware/inputvalidation.middleware");
-const auth = require("../middleware/auth.middleware");
+const inputValidation = require("../../middleware/inputvalidation.middleware");
+const auth = require("../../middleware/auth.middleware");
 const { Sequelize } = require("sequelize");
 
 const tagSchema = new FailSchema();

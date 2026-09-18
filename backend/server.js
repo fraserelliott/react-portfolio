@@ -6,7 +6,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
-const {sequelize, testConnection} = require("./config/");
+const { sequelize, testConnection } = require("./config/");
 testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(cors());
 }
 
-const routes = require("./routes/index.route");
+const routes = require("./routes");
 app.use("/api", routes);
 
 app.use((req, res) => {
@@ -27,7 +27,7 @@ app.use((req, res) => {
 // Error logging
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
-  res.status(500).json({error: err.message});
+  res.status(500).json({ error: err.message });
 });
 
 const PORT = process.env.PORT || 3001;

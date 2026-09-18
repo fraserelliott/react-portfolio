@@ -1,14 +1,14 @@
 const router = require("express").Router();
 const { Op } = require("sequelize");
-const { Post, Tag } = require("../models/");
-const { sequelize } = require("../config");
+const { Post, Tag } = require("../../models");
+const { sequelize } = require("../../config");
 const {
   FailSchema,
   StringField,
   BooleanField,
 } = require("@fraserelliott/fail");
-const inputValidation = require("../middleware/inputvalidation.middleware");
-const auth = require("../middleware/auth.middleware");
+const inputValidation = require("../../middleware/inputvalidation.middleware");
+const auth = require("../../middleware/auth.middleware");
 
 // Define validation rules for posts
 const postSchema = new FailSchema();
