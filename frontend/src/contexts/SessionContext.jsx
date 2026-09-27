@@ -1,6 +1,13 @@
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
-import { useApi } from './ApiContext.jsx';
-import api from '../api'; // ensure this path is correct
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
+import { useApi } from "./ApiContext.jsx";
+import api from "../api";
 
 export const SessionContext = createContext({
   token: null,
@@ -10,22 +17,22 @@ export const SessionContext = createContext({
 
 export function SessionProvider({ children }) {
   const { runApi, registerUnauthorisedHandler } = useApi();
-  const [token, setToken] = useState(() => localStorage.getItem('authToken'));
+  const [token, setToken] = useState(() => localStorage.getItem("authToken"));
 
   // TODO: validate token after retrieving
 
   // Persist token to localStorage
   useEffect(() => {
-    if (token) localStorage.setItem('authToken', token);
-    else localStorage.removeItem('authToken');
+    if (token) localStorage.setItem("authToken", token);
+    else localStorage.removeItem("authToken");
   }, [token]);
 
   const loginAsync = useCallback(
     async (email, password) => {
       return runApi(
-        api.post('/api/users/login', { email, password }),
+        api.post("/api/users/login", { email, password }),
         (data) => setToken(data.token),
-        'Error logging in',
+        "Error logging in",
       );
     },
     [runApi],
@@ -51,7 +58,9 @@ export function SessionProvider({ children }) {
     [token, loginAsync, logout],
   );
 
-  return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
+  return (
+    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
+  );
 }
 
 export const useSession = () => useContext(SessionContext);

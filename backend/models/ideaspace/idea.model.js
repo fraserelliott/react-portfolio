@@ -8,6 +8,12 @@ Idea.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
     },
     isIdea: {
       type: DataTypes.BOOLEAN,
@@ -16,10 +22,12 @@ Idea.init(
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: "",
     },
     summary: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: "",
     },
   },
   {

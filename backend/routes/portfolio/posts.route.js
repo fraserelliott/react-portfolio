@@ -17,7 +17,6 @@ postSchema.add("content", new StringField().required().nonNull());
 postSchema.add("featured", new BooleanField().required().nonNull());
 postSchema.add("summary", new StringField().required().nonNull());
 postSchema.add("repoLink", new StringField().required().nonNull().website());
-// TODO: add ArrayField to FAIL
 
 // Route to create a new post
 router.post(
