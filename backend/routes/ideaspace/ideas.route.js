@@ -106,4 +106,20 @@ router.post(
   },
 );
 
+router.delete("/:id", auth.validateToken, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const idea = await Idea.findByPk(id);
+    if (!idea) return res.status(404).json({ error: "Idea not found." });
+
+    await idea.destroy();
+    return res.status(200).json({
+      success: true,
+      deletedId: id,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Error deleting idea." });
+  }
+});
+
 module.exports = router;
