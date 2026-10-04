@@ -7,7 +7,6 @@ exports.validate = (schema) => {
     if (!result.valid) {
       return res.status(400).json({
         error: result.error || "Invalid input",
-        normalised,
       });
     }
 
