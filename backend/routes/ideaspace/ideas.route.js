@@ -10,6 +10,9 @@ const {
 const inputValidation = require("../../middleware/inputvalidation.middleware");
 const auth = require("../../middleware/auth.middleware");
 const trim = require("../../middleware/trim.middleware");
+const {
+  validateIdeaNameAvailable,
+} = require("../../middleware/validateName.middleware");
 const { Op } = require("sequelize");
 
 const includeIdeaTags = {
@@ -48,6 +51,7 @@ router.post(
   "/",
   auth.validateToken,
   inputValidation.validate(ideaSchema),
+  validateIdeaNameAvailable,
   async (req, res) => {
     try {
       const { name, isIdea } = req.body;
@@ -72,7 +76,7 @@ router.get("/", async (req, res) => {
   try {
     const ideas = await Idea.findAll({
       where: { slug: { [Op.not]: null } },
-      attributes: ["id", "name", "isIdea", "slug", "updatedAt"],
+      attributes: ["id", "name", "isIdea", "slug", "summary", "updatedAt"],
       include: includeIdeaTags,
     });
     res.json(ideas);
@@ -84,12 +88,26 @@ router.get("/", async (req, res) => {
 router.get("/dashboard", auth.validateToken, async (req, res) => {
   try {
     const ideas = await Idea.findAll({
-      attributes: ["id", "name", "isIdea", "slug", "updatedAt"],
+      attributes: ["id", "name", "isIdea", "slug", "summary", "updatedAt"],
       include: includeIdeaTags,
     });
     res.json(ideas);
   } catch (error) {
     return res.status(500).json({ error: "Error retrieving ideas." });
+  }
+});
+
+router.get("/:slug", async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const idea = await Idea.findOne({
+      where: { slug },
+      include: includeIdeaTags,
+    });
+    if (!idea) return res.status(404).json({ error: "Idea not found." });
+    res.json(idea);
+  } catch (error) {
+    return res.status(500).json({ error: "Error retrieving idea." });
   }
 });
 
@@ -109,6 +127,7 @@ router.put(
   auth.validateToken,
   trim.trimBody,
   inputValidation.validate(ideaSchema),
+  validateIdeaNameAvailable,
   async (req, res) => {
     try {
       const { name, isIdea, content, summary, slug, ideatags } = req.body;
@@ -152,16 +171,9 @@ router.post(
   auth.validateToken,
   trim.trimBody,
   inputValidation.validate(validateNameSchema),
-  async (req, res) => {
-    try {
-      const { excludeId, name } = req.body;
-      const foundIdea = await Idea.findOne({ where: { name } });
-      if (!foundIdea || foundIdea.id === excludeId)
-        return res.status(200).json({ valid: true });
-      else return res.status(409).json({ valid: false, reason: "NAME_EXISTS" });
-    } catch (error) {
-      return res.status(500).json({ error: "Error validating name." });
-    }
+  validateIdeaNameAvailable,
+  (req, res) => {
+    res.sendStatus(200);
   },
 );
 
