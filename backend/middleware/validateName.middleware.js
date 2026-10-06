@@ -3,7 +3,8 @@ const { Op } = require("sequelize");
 
 exports.validateIdeatagNameAvailable = async (req, res, next) => {
   try {
-    const { name, excludeId } = req.body;
+    const { name } = req.body;
+    const excludeId = req.body.excludeId ?? req.body.id;
 
     const foundIdeatag = await IdeaTag.findOne({
       where: {
@@ -30,7 +31,8 @@ exports.validateIdeatagNameAvailable = async (req, res, next) => {
 
 exports.validateIdeaNameAvailable = async (req, res, next) => {
   try {
-    const { name, excludeId } = req.body;
+    const { name } = req.body;
+    const excludeId = req.body.excludeId ?? req.body.id;
 
     const foundIdea = await Idea.findOne({
       where: {
