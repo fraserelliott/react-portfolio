@@ -11,15 +11,18 @@ testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
 
-if (process.env.NODE_ENV !== "production") {
-  app.use(cors());
-} else {
-  app.use(
-    cors({
-      origin: "https://fraserelliott.github.io",
-    }),
-  );
-}
+const allowedOrigins = [
+  "https://fraserelliott.github.io",
+  "http://localhost:5173",
+  "http://localhost:5174",
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+  }),
+);
+
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.use(express.json());
 
