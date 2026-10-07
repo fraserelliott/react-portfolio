@@ -1,6 +1,13 @@
-import { createContext, useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import api from '../api';
-import { useApi } from './ApiContext.jsx';
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
+import api from "../api";
+import { useApi } from "./ApiContext.jsx";
 
 export const ProjectsContext = createContext({
   projects: [],
@@ -26,16 +33,16 @@ export function ProjectsProvider({ children }) {
     (async () => {
       await Promise.all([
         runApi(
-          api.get('/api/posts'),
+          api.get("/api/portfolio/posts"),
           (d) => mounted && setProjects(d),
-          'Error fetching posts',
-          () => mounted && setError(new Error('Failed to load projects')),
+          "Error fetching posts",
+          () => mounted && setError(new Error("Failed to load projects")),
         ),
         runApi(
-          api.get('/api/tags'),
+          api.get("/api/portfolio/tags"),
           (d) => mounted && setTags(d),
-          'Error fetching tags',
-          () => mounted && setError(new Error('Failed to load tags')),
+          "Error fetching tags",
+          () => mounted && setError(new Error("Failed to load tags")),
         ),
       ]);
       if (mounted) setLoading(false);
@@ -48,9 +55,9 @@ export function ProjectsProvider({ children }) {
   const addProjectAsync = useCallback(
     async (project) => {
       return runApi(
-        api.post('/api/posts', project),
+        api.post("/api/portfolio/posts", project),
         (newProject) => setProjects((prev) => [...prev, newProject]),
-        'Error adding project',
+        "Error adding project",
       );
     },
     [runApi],
@@ -59,9 +66,12 @@ export function ProjectsProvider({ children }) {
   const updateProjectAsync = useCallback(
     async (project) => {
       return runApi(
-        api.put(`/api/posts/${project.id}`, project),
-        (updated) => setProjects((prev) => prev.map((p) => (p.id === updated.id ? updated : p))),
-        'Error updating project',
+        api.put(`/api/portfolio/posts/${project.id}`, project),
+        (updated) =>
+          setProjects((prev) =>
+            prev.map((p) => (p.id === updated.id ? updated : p)),
+          ),
+        "Error updating project",
       );
     },
     [runApi],
@@ -70,9 +80,9 @@ export function ProjectsProvider({ children }) {
   const deleteProjectAsync = useCallback(
     async (id) => {
       return runApi(
-        api.delete(`/api/posts/${id}`),
+        api.delete(`/api/portfolio/posts/${id}`),
         () => setProjects((prev) => prev.filter((p) => p.id !== id)),
-        'Error deleting project',
+        "Error deleting project",
       );
     },
     [runApi],
@@ -81,9 +91,9 @@ export function ProjectsProvider({ children }) {
   const addTagAsync = useCallback(
     async (tag) => {
       return runApi(
-        api.post('/api/tags', tag),
+        api.post("/api/portfolio/tags", tag),
         (newTag) => setTags((prev) => [...prev, newTag]),
-        'Error adding tag',
+        "Error adding tag",
       );
     },
     [runApi],
@@ -91,7 +101,11 @@ export function ProjectsProvider({ children }) {
 
   const getProjectByIdAsync = useCallback(
     async (id) => {
-      return runApi(api.get(`/api/posts/${id}`), () => null, 'Error retrieving project');
+      return runApi(
+        api.get(`/api/portfolio/posts/${id}`),
+        () => null,
+        "Error retrieving project",
+      );
     },
     [runApi],
   );
@@ -121,7 +135,11 @@ export function ProjectsProvider({ children }) {
     ],
   );
 
-  return <ProjectsContext.Provider value={value}>{children}</ProjectsContext.Provider>;
+  return (
+    <ProjectsContext.Provider value={value}>
+      {children}
+    </ProjectsContext.Provider>
+  );
 }
 
 export const useProjects = () => useContext(ProjectsContext);
