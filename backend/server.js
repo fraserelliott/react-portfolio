@@ -15,6 +15,12 @@ app.use(express.json());
 
 if (process.env.NODE_ENV !== "production") {
   app.use(cors());
+} else {
+  app.use(
+    cors({
+      origin: "https://fraserelliott.github.io",
+    }),
+  );
 }
 
 const routes = require("./routes");
