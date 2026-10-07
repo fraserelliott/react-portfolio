@@ -12,7 +12,14 @@ testConnection(); // Exits loudly if there's an issue in the config
 const app = express();
 
 app.use((req, res, next) => {
-  console.log("REQUEST ORIGIN:", req.headers.origin);
+  console.log({
+    method: req.method,
+    url: req.originalUrl,
+    origin: req.headers.origin,
+    referer: req.headers.referer,
+    userAgent: req.headers["user-agent"],
+  });
+
   next();
 });
 
