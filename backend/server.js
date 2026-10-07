@@ -11,6 +11,11 @@ testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log("REQUEST ORIGIN:", req.headers.origin);
+  next();
+});
+
 const allowedOrigins = [
   "https://fraserelliott.github.io",
   "http://localhost:5173",

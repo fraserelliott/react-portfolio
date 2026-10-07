@@ -45,7 +45,6 @@ router.post(
         return res.status(409).json({ error: "Email already in use." });
       }
 
-      console.error(error);
       return res.status(500).json({ error: "Error creating user." });
     }
   },
@@ -80,7 +79,6 @@ router.post(
         id: user.id,
       });
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ error: "Error logging in" });
     }
   },

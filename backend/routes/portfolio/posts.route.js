@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { Op } = require("sequelize");
 const { Post, Tag, PostTag } = require("../../models");
-const { sequelize } = require("../../config");
 const {
   FailSchema,
   StringField,
@@ -80,7 +79,7 @@ router.get("/", async (req, res) => {
         : req.query.tags.split(",").map(Number);
 
       // Find post IDs linked to any of the tag IDs (junction table)
-      const postIds = await PostTags.findAll({
+      const postIds = await PostTag.findAll({
         where: {
           tagId: {
             [Op.in]: tagIds,
@@ -105,7 +104,6 @@ router.get("/", async (req, res) => {
     });
     res.json(posts);
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Error retrieving posts." });
   }
 });
@@ -121,8 +119,8 @@ router.get("/:id", async (req, res) => {
         through: { attributes: [] }, // hide join table IDs
       },
     });
-    if (!post) res.status(404).json({ error: "Post not found." });
-    res.json(post);
+    if (!post) return res.status(404).json({ error: "Post not found." });
+    return res.json(post);
   } catch (error) {
     return res.status(500).json({ error: "Error retrieving post." });
   }
@@ -164,6 +162,7 @@ router.put(
       });
       res.json(post);
     } catch (error) {
+      console.error("Error updating post:", error);
       return res.status(500).json({ error: "Error updating post." });
     }
   },

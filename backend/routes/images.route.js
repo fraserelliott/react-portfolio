@@ -62,7 +62,6 @@ router.get("/", async (req, res) => {
     const images = await Image.findAll();
     res.status(200).json(images);
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Error fetching images" });
   }
 });
