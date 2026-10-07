@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
         // count join rows; cast to int for convenience
         [
           Sequelize.cast(
-            Sequelize.fn("COUNT", Sequelize.col("posts->PostTag.postId")),
+            Sequelize.fn("COUNT", Sequelize.col("posts->PostTag.post_id")),
             "integer",
           ),
           "usageCount",
