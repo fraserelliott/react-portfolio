@@ -190,7 +190,6 @@ router.post(
         return res.status(200).json({ valid: true });
       else return res.status(409).json({ valid: false, reason: "SLUG_EXISTS" });
     } catch (error) {
-      console.error(error);
       return res.status(500).json({ error: "Error validating slug." });
     }
   },
