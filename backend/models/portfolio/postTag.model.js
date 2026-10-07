@@ -18,7 +18,8 @@ PostTag.init(
     sequelize,
     modelName: "PostTag",
     tableName: "PostTags",
-    timestamps: false,
+    underscored: true,
+    timestamps: true,
   },
 );
 

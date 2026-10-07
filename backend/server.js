@@ -10,8 +10,6 @@ const { sequelize, testConnection } = require("./config/");
 testConnection(); // Exits loudly if there's an issue in the config
 
 const app = express();
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-app.use(express.json());
 
 if (process.env.NODE_ENV !== "production") {
   app.use(cors());
@@ -22,6 +20,8 @@ if (process.env.NODE_ENV !== "production") {
     }),
   );
 }
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.json());
 
 const routes = require("./routes");
 app.use("/api", routes);

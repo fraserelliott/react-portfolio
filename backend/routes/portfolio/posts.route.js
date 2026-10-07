@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { Op } = require("sequelize");
-const { Post, Tag } = require("../../models");
+const { Post, Tag, PostTag } = require("../../models");
 const { sequelize } = require("../../config");
 const {
   FailSchema,
@@ -80,11 +80,13 @@ router.get("/", async (req, res) => {
         : req.query.tags.split(",").map(Number);
 
       // Find post IDs linked to any of the tag IDs (junction table)
-      const postIds = await sequelize.models.PostTags.findAll({
-        where: { tagId: { [Op.in]: tagIds } },
+      const postIds = await PostTags.findAll({
+        where: {
+          tagId: {
+            [Op.in]: tagIds,
+          },
+        },
         attributes: ["postId"],
-        group: ["postId"],
-        raw: true,
       }).then((results) => results.map((r) => r.postId));
 
       where.id = { [Op.in]: postIds };
@@ -96,7 +98,7 @@ router.get("/", async (req, res) => {
         model: Tag,
         as: "tags",
         attributes: ["id", "name"],
-        through: { attributes: [] }, // hide join table IDs
+        through: { attributes: [] },
         required: false,
       },
       where,
